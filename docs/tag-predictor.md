@@ -182,9 +182,6 @@ Lets do a the data analysis now:
     
 3. <b>Distribution of number of times tag appeared questions:</b> 
  ![Number of tags in the question](../images/num_of_times_tag_appeared.png)
- 
-4. <b>Distribution of top 100 tags:</b> 
- ![Top 100 tags](../images/top_100_tags.png)
     
 5. <b>Most frequent tags:</b>   
 ![Most frequent tags](../images/frequent_tags.png)
@@ -234,22 +231,15 @@ maximum number of questions. So say if we select 500 tags then lets see how many
 
 ![questions covered the the tags](../images/question_covered.png)
 <br> As we can see in the graph,
--with  5500 tags we are covering  99.015 % of questions
--with  500 tags we are covering  92.5 % of questions
+-with  5500 tags we are covering  99.015 % of questions <br>
+-with  500 tags we are covering  92.5 % of questions <br>
 
-Here we are going to use <i><b>Problem Transformation(Binary Relevance)</b></i> method to solve the problem.
-
-<h4>Binary Relevance:</h4> Here we are going to convert multi-label classification problem into multiple single class classification problems.For example if we are having 5 multi-label classification problem, then we need to train 5 single class classification models.
-
- Basically in this method, we treat each label (in our case its tag) as a separate single class classification problem. This technique is simple and is widely used.
-
-Please refer to [analytics vidhya's blog](https://www.analyticsvidhya.com/blog/2017/08/introduction-to-multi-label-classification/){:target="_blank"} to know more about the techniques to solve a Multi-Label classification problem.
-
- 
+<h5>How do we handle the multilabel target, i.e. Y is multi label and not multiclass</h5>
+<br> We will solve this by using OneVsRestClassifier, i.e. it will handle each label (in our case tag) as a separate single class classification problem.
+Note:[analytics vidhya's blog](https://www.analyticsvidhya.com/blog/2017/08/introduction-to-multi-label-classification/){:target="_blank"}  has explained in detail the techniques to solve a Multi-Label classification problem.
 
 <h4>Train and Test data</h4>
-
-If the data had timestamp attached for each of the questions, then splitting data with respect to its temporal nature would have made more sense than splitting data randomly. But since the data is not of temporal nature (i.e., no timestamp), we are splitting data randomly into 80% train set & 20% test set
+Let us randomly split the data into 80% train set & 20% test set
 
 <pre><code><b>train_datasize= 0.8 * preprocessed_title_more_weight_df.shape[0]
 x_train = preprocessed_title_more_weight_df[:int(train_datasize)]
@@ -260,44 +250,48 @@ y_test = multilabel_yx[train_datasize:,:]
 
 <h4>Featurizing Text Data with TfIdf vectorizer</h4>
 
-There are various ways to featurize text data. I have explained this deeply in my [blog](https://goo.gl/g1cB6z){:target="_blank"} post. First lets featurize the question data with TfIdf vectorizer. [TfidfVectorizer](http://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html){:target="_blank"} of sklearn helps here
-
-<pre><code><b>vectorizer = TfidfVectorizer(min_df=0.00009, max_features=200000, smooth_idf=True, norm="l2",sublinear_tf=False, ngram_range=(1,3))
+<pre><code><b>vectorizer = TfidfVectorizer(min_df=0.00009, max_features=100000, smooth_idf=True, norm="l2",sublinear_tf=False, ngram_range=(1,3))
 x_train_multilabel = vectorizer.fit_transform(x_train['questions'])
 x_test_multilabel = vectorizer.transform(x_test['questions'])
 </b></code></pre>
+-Dimensions of train data X: (80000, 100000) Y : (80000, 500)<br>
+-Dimensions of test data X: (20000, 100000) Y: (20000, 500)
 
-Dimensions of train data X: (400000, 90809) Y : (400000, 600)
+<h5>Applying Logistic Regression with OneVsRest Classifier (for tfidf vectorizers). We will achieve this using SGDClassifier and log loss</h5>
 
-Dimensions of test data X: (100000, 90809) Y: (100000, 600)
-
-<h5>Applying Logistic Regression with OneVsRest Classifier (for tfidf vectorizers)</h5>
-
-Lets use Logistic Regression algo to train 600 models (600 tags). We shall use [OneVsRestClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html){:target="_blank"} of sklearn to achieve the same
-
-<pre><code><b>classifier = OneVsRestClassifier(LogisticRegression(penalty='l1'), n_jobs=-1)
+<pre><code><b>classifier = OneVsRestClassifier(SGDClassifier(loss='log', alpha=0.00001, penalty='l1'), n_jobs=-1)
 classifier.fit(x_train_multilabel, y_train)
 predictions = classifier.predict(x_test_multilabel)
+
+# calculate the performance matrix
+LR_SGDClassifier_precision = precision_score(y_test, predictions, average='micro')
+LR_SGDClassifier_recall = recall_score(y_test, predictions, average='micro')
+LR_SGDClassifier_f1 = f1_score(y_test, predictions, average='micro')
 </b></code></pre>
 
-<b><u>Results</u></b>
+<b><u>Performance Data</u></b>
+Micro-average quality numbers
+Precision: 0.7011, Recall: 0.3091, F1-measure: 0.4290
 
-Micro F1-measure: 0.4950
+<h5>Applying Logistic Regression with OneVsRest Classifier (for tfidf vectorizers). We will achieve this using LogisticRegression</h5>
 
-Macro F1-measure: 0.3809
+<pre><code><b>classifier_2 = OneVsRestClassifier(LogisticRegression(penalty='l1'), n_jobs=-1)
+classifier_2.fit(x_train_multilabel, y_train)
+predictions_2 = classifier_2.predict(x_test_multilabel)
 
-<h4>Featurizing Text Data with Bag Of Words (BOW) vectorizer</h4>
+# calculate the performance matrix
+LR_precision = precision_score(y_test, predictions_2, average='micro')
+LR_recall = recall_score(y_test, predictions_2, average='micro')
+LR_f1 = f1_score(y_test, predictions_2, average='micro')
+</b></code></pre>
 
-This time lets featurize the question data with BOW upto 4 grams.
+<b><u>Performance Data</u></b>
+Micro-average quality numbers
+Precision: 0.6955, Recall: 0.3161, F1-measure: 0.4347
 
-<i><b> I did try Featurizing Text Data with Bag Of Words, but my system was giving out of memory error.</b> So again I have to downscale the data to 100K.</i> Here is train & test data after downscaling
-
-Dimensions of train data X: (80000, 200000) Y : (80000, 600)
-
-Dimensions of test data X: (20000, 200000) Y: (20000, 600)
-
-<pre><code><b>vectorizer = CountVectorizer(min_df=0.00001,max_features=200000, ngram_range=(1,4))
-x_train_multilabel = vectorizer.fit_transform(x_train['questions'])
-x_test_multilabel = vectorizer.transform(x_test['questions'])</b></code></pre>
+<h4>Featurizing Text Data with Bag Of Words (BOW) vectorizer upto 4 grams</h4>
+<pre><code><b>vectorizer = CountVectorizer(min_df=0.00009, max_features=100000, ngram_range=(1,3))
+x_train_multilabel = vectorizer.fit_transform(x_train['question'])
+x_test_multilabel = vectorizer.transform(x_test['question'])</b></code></pre>
 
  
