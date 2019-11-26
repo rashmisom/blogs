@@ -3,7 +3,7 @@ layout: default
 title: Collection of Blogs
 ---
 
-### Welcome to GitHub Pages
+## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/rashmisom/blogs/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
