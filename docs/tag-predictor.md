@@ -182,7 +182,7 @@ Lets do a the data analysis now:
     
 3. <b>Distribution of number of times tag appeared questions:</b> 
 ![Distribution of number of times tag appeared in questions]
-({{site.baseurl}}/images/num_of_times_tag_appeared.png)
+(https://github.com/rashmisom/blogs/tree/master/images/num_of_times_tag_appeared.png)
     
 4. <b>Top 10 important tags:</b>  ['.a', '.app', '.aspxauth', '.bash-profile', '.class-file', '.cs-file', '.doc', '.drv', '.ds-store', '.each']
 
