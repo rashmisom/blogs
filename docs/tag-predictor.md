@@ -1,6 +1,5 @@
 ---
-layout: default
-title: Stackflow Tag Predictor
+title: [Stackflow Tag Predictor]
 ---
 
 If you are a software engineer or a programmer you must have used [stackoverflow](https://stackoverflow.com){:target="_blank"} atleast once in your life time. 
