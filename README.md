@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Collection of Blogs
 ---
 
