@@ -295,36 +295,84 @@ x_train_multilabel = vectorizer.fit_transform(x_train['question'])
 x_test_multilabel = vectorizer.transform(x_test['question'])</b></code></pre>
 
 
-<h5>Applying Logistic Regression with OneVsRest Classifier (for BOW vectorizers)</h5>
+<h5>Applying Logistic Regression with OneVsRestClassifier (for BOW vectorizers)</h5>
 
 <pre><code><b>classifier = OneVsRestClassifier(LogisticRegression(penalty='l1'))
 classifier.fit(x_train_multilabel, y_train)
-predictions = classifier.predict(x_test_multilabel)</b></code></pre>
+predictions = classifier.predict(x_test_multilabel)
 
-<b><u>Results</u></b>
+# calculate the performance matrix
+BOW_LR_precision = precision_score(y_test, predictions, average='micro')
+BOW_LR_recall = recall_score(y_test, predictions, average='micro')
+BOW_LR_f1 = f1_score(y_test, predictions, average='micro')
+</b></code></pre>
 
-Micro F1-measure: 0.4781
+<b><u>Performance Data</u></b><br>
+Micro-average quality numbers<br>
+Precision: 0.5647, Recall: 0.3595, F1-measure: 0.4393
 
-Macro F1-measure: 0.3655
+<h5>Perform hyperparam tuning on alpha (or lambda) for Logistic regression to improve the performance using GridSearch</h5>
 
-<h5>Hyperparameter tuning on alpha for Logistic Regression to improve performance</h5>
+<pre><code><b>param_C = [10 ** x for x in range(-6,2,1)]
+params = {'estimator__C':param_C}
+classifier = OneVsRestClassifier(LogisticRegression(penalty='l1'))
+grid_search = GridSearchCV(classifier,params,n_jobs=-1,cv=5)
+grid_search.fit(x_train_multilabel, y_train)
 
-I did tried tuning the Hyperparameter alpha for Logistic Regression, but I didn't find any significant improvement (or even small improvement) in the performance, either in micro-f1 score or macro f1-score
+# calculate the performance matrix
+BOW_LR_HP_precision = precision_score(y_test, predictions, average='micro')
+BOW_LR_HP_recall = recall_score(y_test, predictions, average='micro')
+BOW_LR_HP_f1 = f1_score(y_test, predictions, average='micro')
+</b></code></pre>
 
-<h4>OneVsRestClassifier with Linear-SVM</h4>
+<b><u>Performance Data</u></b><br>
+Micro-average quality numbers<br>
+Precision: 0.6904, Recall: 0.2759, F1-measure: 0.3943
 
-Lets use Linear-SVM algo to train 600 models. Linear-SVM is nothing but SGDClassifier with loss as `hinge`. After finding the hyperparameter `alpha` using [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html){:target="_blank"} , I found out `alpha` to be 0.001
+<h4>OneVsRestClassifier with Linear-SVM (SGDClassifier with loss-hinge)</h4>
 
-<pre><code><b>classifier = OneVsRestClassifier(SGDClassifier(loss='hinge', alpha=grid_search.best_params_['estimator__alpha'], penalty='l1',  max_iter=1000,tol=0.0001 ), n_jobs=-1)
+<pre><code><b>classifier = OneVsRestClassifier(SGDClassifier(loss='hinge', alpha=0.00001, penalty='l1'), n_jobs=-1)
 classifier.fit(x_train_multilabel, y_train)
-predictions = classifier.predict(x_test_multilabel)</b></code></pre>
+predictions = classifier.predict(x_test_multilabel)
 
-<b><u>Results</u></b>
+# calculate the performance matrix
+SVM_precision = precision_score(y_test, predictions, average='micro')
+SVM_recall = recall_score(y_test, predictions, average='micro')
+SVM_f1 = f1_score(y_test, predictions, average='micro')
+</b></code></pre>
 
-Micro F1-measure: 0.4007
+<b><u>Performance Data</u></b><br>
+Micro-average quality numbers<br>
+Precision: 0.2139, Recall: 0.4316, F1-measure: 0.2861
 
-Macro F1-measure: 0.2430
+<h3><u>Lets compare the micro F1 score of the different models.</u></h3>
+<pre><code><b>
+x = PrettyTable()
 
-<h3><u>Observations</u></h3>
+x.title = " Micro F1 score for different models:"
+x.field_names = ["Model ", "Precision", "Recall"," F1 Score"]
 
-Of all the models we used so far, <i>Logistic Regression with TfIdf vectorizer and n_grams=(1,3)</i> performed better than rest of the models. But we have trained the Logistic Regression model with large number of data points, so comparing this model with rest the models, which are trained with lesser data points, will not make sense. So we need to train Logistic Regression model with TfIdf vectorizer & n_grams=(1,3) with 100K data points. So the comparision between the models will be reasonable
+x.add_row(["Logistic Regression(SGDClassifier) \n with OneVsRest", LR_SGDClassifier_precision , LR_SGDClassifier_recall,LR_SGDClassifier_f1])
+x.add_row(["Logistic Regression \n with OneVsRest", LR_precision , LR_recall,LR_f1]) 
+x.add_row(["Logistic Regression \n with Bag Of Words", BOW_LR_precision , BOW_LR_recall,BOW_LR_f1]) 
+x.add_row(["Logistic Regression \n with Bag Of Words \n alpha value tuned", BOW_LR_HP_precision , BOW_LR_HP_recall,BOW_LR_HP_f1])
+x.add_row(["SVM", SVM_precision , SVM_recall ,SVM_f1])
+print(x)
+</b></code></pre>
+
++-------------------------------------+---------------------+--------------------+---------------------+
+|                Model                |      Precision      |       Recall       |       F1 Score      |
++-------------------------------------+---------------------+--------------------+---------------------+
+| Logistic Regression(SGDClassifier)  |  0.7010714934318057 | 0.3090574295473954 |  0.428997425496842  |
+|            with OneVsRest           |                     |                    |                     |
+|         Logistic Regression         |  0.6955372871403406 | 0.3161026900085397 | 0.43466294814869183 |
+|            with OneVsRest           |                     |                    |                     |
+|         Logistic Regression         |  0.5647034164745336 | 0.3594950896669513 | 0.43931710339654634 |
+|           with Bag Of Words         |                     |                    |                     |
+|         Logistic Regression         |  0.6903712606837606 | 0.2759126814688301 |  0.3942571690054912 |
+|          with Bag Of Words          |                     |                    |                     |
+|           alpha value tuned         |                     |                    |                     |
+|                 SVM                 | 0.21394838146389217 | 0.4316022630230572 |  0.2860832264626542 |
++-------------------------------------+---------------------+--------------------+---------------------+
+
+ 
