@@ -7,8 +7,8 @@ repository_url: https://github.com/rashmisom/tag-prediction
 
 We all know [stackoverflow](https://stackoverflow.com){:target="_blank"}. It has questions and answers. Now, do we know these questions are tagged? A tag is a word or phrase that describes the topic of the question. Tags are a means of connecting experts with questions they will be able to answer by sorting questions into specific, well-defined categories. Tags can also be used to help you identify questions that are interesting or relevant to you.
   
-In this blog, let us discuss the tagging predictor.
-<b>stackoverflow tag predictor</b> we have covered this as part of [appliedaicourse](https://www.appliedaicourse.com/){:target="_blank"}.
+In this blog, let us discuss the tagging predictor.<br>
+<b>stackoverflow tag predictor</b> we have analysed this ML problem as part of [appliedaicourse](https://www.appliedaicourse.com/){:target="_blank"}.
 So lets get started on understanding the complete but simple steps to do the TAG PREDICTION.
 
 ---
