@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Stack Overflow: Tag Prediction
+title: Stack Overflow Tag Prediction
 description: Lets suggest the tags
 ---
 
