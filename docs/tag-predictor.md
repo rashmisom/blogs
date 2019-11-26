@@ -1,8 +1,6 @@
 ---
-tags: 'machine learning, stackoverflow, casestudy'
-published: true
-image: '../images/stackoverflow.png'
-min_to_read: 20
+layout: post
+title: Stackflow Tag Predictor
 ---
 
 If you are a software engineer or a programmer you must have used [stackoverflow](https://stackoverflow.com){:target="_blank"} atleast once in your life time. 
