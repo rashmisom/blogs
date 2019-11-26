@@ -49,7 +49,7 @@ Click [here](https://www.kaggle.com/c/facebook-recruiting-iii-keyword-extraction
 
 <b>Body:</b>
 
-<pre><code>
+<pre><code><b>
         #include&lt;
         iostream&gt;\n
         #include&lt;
@@ -99,7 +99,7 @@ Click [here](https://www.kaggle.com/c/facebook-recruiting-iii-keyword-extraction
                  system("PAUSE");\n        
                  return 0;    \n
         }\n
-        </code></pre>
+        </b></code></pre>
 
 <b>Tags</b>:'c++ c'
 
@@ -145,7 +145,7 @@ https://www.kaggle.com/wiki/HammingLoss <br>
 
 We can save the csv files in the db files and continue with our data analysis.
 
-<pre><code>
+<pre><code><b>
 if not os.path.isfile('train.db'):
     start = datetime.now()
     disk_engine = create_engine('sqlite:///train.db')
@@ -162,21 +162,21 @@ if not os.path.isfile('train.db'):
         index_start = df.index[-1] + 1
     print("Time taken to run this cell :", datetime.now() - start)
   
-  </code></pre>
+  </b></code></pre>
 
 Lets do a the data analysis now:
 
 1. <b>Counting the number of rows:</b> 
-      <pre><code>
+      <pre><code><b>
         num_rows = pd.read_sql_query("""SELECT count(*) FROM data""", con)
-      </code></pre>
+      </b></code></pre>
     and we get total row count as: 6034196
 
 2. <b> Checking for duplicates
-   <pre><code>
+   <pre><code><b>
       df_no_dup = pd.read_sql_query('SELECT Title, Body, Tags, COUNT(*) as cnt_dup FROM data GROUP BY Title, Body, Tags', con)
       print("number of duplicate questions :", num_rows['count(*)'].values[0]- df_no_dup.shape[0], "(",(1-((df_no_dup.shape[0])/(num_rows['count(*)'].values[0])))*100,"% )")
-   </code></pre>
+   </b></code></pre>
     
     and we get : number of duplicate questions : 1827881 ( 30.292038906260256 % )
     
@@ -219,14 +219,14 @@ Lets do a the data analysis now:
 maximum number of questions. So say if we select 500 tags then lets see how many total questions are covered by these 500 tags.
 
 <b>
-  <pre><code>
+  <pre><code><b>
   questions_explained = []
   total_tags=multilabel_y.shape[1]
   total_qs=preprocessed_data.shape[0]
   for i in range(500, total_tags, 100):
       questions_explained.append(np.round(((total_qs-questions_explained_fn(i))/total_qs)*100,3))
     
- </code></pre>
+ </b></code></pre>
 <br>Lets plot this data:
 
 ![questions covered the the tags](../images/question_covered.png)
@@ -269,8 +269,8 @@ LR_SGDClassifier_recall = recall_score(y_test, predictions, average='micro')
 LR_SGDClassifier_f1 = f1_score(y_test, predictions, average='micro')
 </b></code></pre>
 
-<b><u>Performance Data</u></b>
-Micro-average quality numbers
+<b><u>Performance Data</u></b><br>
+Micro-average quality numbers<br>
 Precision: 0.7011, Recall: 0.3091, F1-measure: 0.4290
 
 <h5>Applying Logistic Regression with OneVsRest Classifier (for tfidf vectorizers). We will achieve this using LogisticRegression</h5>
@@ -285,8 +285,8 @@ LR_recall = recall_score(y_test, predictions_2, average='micro')
 LR_f1 = f1_score(y_test, predictions_2, average='micro')
 </b></code></pre>
 
-<b><u>Performance Data</u></b>
-Micro-average quality numbers
+<b><u>Performance Data</u></b><br>
+Micro-average quality numbers<br>
 Precision: 0.6955, Recall: 0.3161, F1-measure: 0.4347
 
 <h4>Featurizing Text Data with Bag Of Words (BOW) vectorizer upto 4 grams</h4>
@@ -294,4 +294,37 @@ Precision: 0.6955, Recall: 0.3161, F1-measure: 0.4347
 x_train_multilabel = vectorizer.fit_transform(x_train['question'])
 x_test_multilabel = vectorizer.transform(x_test['question'])</b></code></pre>
 
- 
+
+<h5>Applying Logistic Regression with OneVsRest Classifier (for BOW vectorizers)</h5>
+
+<pre><code><b>classifier = OneVsRestClassifier(LogisticRegression(penalty='l1'))
+classifier.fit(x_train_multilabel, y_train)
+predictions = classifier.predict(x_test_multilabel)</b></code></pre>
+
+<b><u>Results</u></b>
+
+Micro F1-measure: 0.4781
+
+Macro F1-measure: 0.3655
+
+<h5>Hyperparameter tuning on alpha for Logistic Regression to improve performance</h5>
+
+I did tried tuning the Hyperparameter alpha for Logistic Regression, but I didn't find any significant improvement (or even small improvement) in the performance, either in micro-f1 score or macro f1-score
+
+<h4>OneVsRestClassifier with Linear-SVM</h4>
+
+Lets use Linear-SVM algo to train 600 models. Linear-SVM is nothing but SGDClassifier with loss as `hinge`. After finding the hyperparameter `alpha` using [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html){:target="_blank"} , I found out `alpha` to be 0.001
+
+<pre><code><b>classifier = OneVsRestClassifier(SGDClassifier(loss='hinge', alpha=grid_search.best_params_['estimator__alpha'], penalty='l1',  max_iter=1000,tol=0.0001 ), n_jobs=-1)
+classifier.fit(x_train_multilabel, y_train)
+predictions = classifier.predict(x_test_multilabel)</b></code></pre>
+
+<b><u>Results</u></b>
+
+Micro F1-measure: 0.4007
+
+Macro F1-measure: 0.2430
+
+<h3><u>Observations</u></h3>
+
+Of all the models we used so far, <i>Logistic Regression with TfIdf vectorizer and n_grams=(1,3)</i> performed better than rest of the models. But we have trained the Logistic Regression model with large number of data points, so comparing this model with rest the models, which are trained with lesser data points, will not make sense. So we need to train Logistic Regression model with TfIdf vectorizer & n_grams=(1,3) with 100K data points. So the comparision between the models will be reasonable
