@@ -1,4 +1,5 @@
 ---
+layout: default
 title: Stack Overflow Tag Predictor 1
 description: ddddddddddd
 ---
