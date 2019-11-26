@@ -183,7 +183,7 @@ Lets do a the data analysis now:
 3. <b>Distribution of number of times tag appeared questions:</b> 
  ![Number of tags in the question](../images/num_of_times_tag_appeared.png)
  
-3. <b>Distribution of top 100 tags:</b> 
+4. <b>Distribution of top 100 tags:</b> 
  ![Top 100 tags](../images/top_100_tags.png)
     
 5. <b>Most frequent tags:</b>   
@@ -202,12 +202,10 @@ Lets do a the data analysis now:
     
 ## Cleaning and preprocessing of Questions
 
-<i>P.S: <b>Due to hardware limitations, I am considering only 500K data points</b></i>
-
 ### preprocessing
 <ol>
  <li>Sample .1M data points, sample data depending on you computer computing power. It takes lot of time to handle this size data. </li>
- <li>Separate out code-snippets from Body </li></li>
+ <li>Separate out code-snippets from Body. Most of the time, the title of the question contains the crux of the question, hence let us try give more weightage to title : Add title three times to the question. </li>
  <li>Remove Spcial characters from Question title and description (not in code)</li>
  <li>Remove stop words (Except 'C') </li>
  <li>Remove HTML Tags </li>
@@ -215,17 +213,14 @@ Lets do a the data analysis now:
  <li>Use SnowballStemmer to stem the words </li>
 </ol>
 
-<h5>Sample question after preprocessing:</h5>
-
->('behavior rang python arang numpi someon pleas explain ni somewhat new numpi seem bizarr',)
-
 ---
 ## Machine Learning Models
 
-<i>
-The total Number of unique tags : 42048. Let us use partial covering i.e. lets take a subset of these tags and try to cover 
+<i><b>
+  The total Number of unique tags : 42048. </b></i>
+<br>Let us use partial covering i.e. lets take a subset of these tags and try to cover 
 maximum number of questions. So say if we select 500 tags then lets see how many total questions are covered by these 500 tags.
-</i>
+
 <b>
   <pre><code>
   questions_explained = []
@@ -238,6 +233,10 @@ maximum number of questions. So say if we select 500 tags then lets see how many
 <br>Lets plot this data:
 
 ![questions covered the the tags](../images/question_covered.png)
+<br> As we can see in the graph,
+-with  5500 tags we are covering  99.015 % of questions
+-with  500 tags we are covering  92.5 % of questions
+
 Here we are going to use <i><b>Problem Transformation(Binary Relevance)</b></i> method to solve the problem.
 
 <h4>Binary Relevance:</h4> Here we are going to convert multi-label classification problem into multiple single class classification problems.For example if we are having 5 multi-label classification problem, then we need to train 5 single class classification models.
@@ -246,20 +245,7 @@ Here we are going to use <i><b>Problem Transformation(Binary Relevance)</b></i> 
 
 Please refer to [analytics vidhya's blog](https://www.analyticsvidhya.com/blog/2017/08/introduction-to-multi-label-classification/){:target="_blank"} to know more about the techniques to solve a Multi-Label classification problem.
 
-<h4>Downscaling of data</h4>
-Coming back to our stackoverflow predictor problem, we need to train 30645 models literally!!!
-Thats really huge (both in terms of time & speed) for a system with 8GB RAM & i5 processor. So we will sample the number of tags instead considering all of them. But how many tags to be sampled with the minimal information loss ? Plotting 'percentage of questions covered' Vs 'Number of tags' would help to solve this.
-
-!['percentage of questions covered' Vs 'Number of tags']({{site.baseurl}}data/images/stackoverflow/percentage_of_questions_covered.png)
-
-<i>Observations</i>
-<ol>
-  <li>with  500 tags we are covering  89.782 % of questions</li>
-  <li>with  600 tags we are covering  91.006 % of questions</li>
-  <li>with  5500 tags we are covering  99.053 % of questions</li>
-</ol>
-
-By choosing only 600 tags (2% approximately) of the total 30645 tags we are loosing only 9% of the questions & also training 600 models is reasonable (Of course it also depends on the type of machine learning algo we choose). So we shall choose 600 tags.
+ 
 
 <h4>Train and Test data</h4>
 
