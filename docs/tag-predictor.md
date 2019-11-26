@@ -181,13 +181,12 @@ Lets do a the data analysis now:
     and we get : number of duplicate questions : 1827881 ( 30.292038906260256 % )
     
 3. <b>Distribution of number of times tag appeared questions:</b> 
-![Distribution of number of times tag appeared in questions]
-(https://github.com/rashmisom/blogs/tree/master/images/num_of_times_tag_appeared.png)
+ ![Number of tags in the question](https://github.com/rashmisom/blogs/tree/master/images/num_of_times_tag_appeared.png)
     
 4. <b>Top 10 important tags:</b>  ['.a', '.app', '.aspxauth', '.bash-profile', '.class-file', '.cs-file', '.doc', '.drv', '.ds-store', '.each']
 
 5. Few number of tags have appeared more than 50000 times & the top 25 tags have appeared more than 10000 times
-![Distribution of number of times tag appeared in questions(for first 100 tags)]({{site.baseurl}}data/images/stackoverflow/tag_counts.png)
+![Distribution of number of times tag appeared in questions(for first 100 tags)] 
 
 6. <b>Tags analysis</b>
     1. Maximum number of tags per question: 5
