@@ -179,7 +179,8 @@ Lets do a the data analysis now:
    </code></pre>
     
     and we get : number of duplicate questions : 1827881 ( 30.292038906260256 % )
-3. <b>Number of unique tags:</b> 34945
+3. <b>Distribution of number of times tag appeared questions:</b> 
+    
 4. <b>Top 10 important tags:</b>  ['.a', '.app', '.aspxauth', '.bash-profile', '.class-file', '.cs-file', '.doc', '.drv', '.ds-store', '.each']
 
 5. Few number of tags have appeared more than 50000 times & the top 25 tags have appeared more than 10000 times
