@@ -181,7 +181,7 @@ Lets do a the data analysis now:
     and we get : number of duplicate questions : 1827881 ( 30.292038906260256 % )
     
 3. <b>Distribution of number of times tag appeared questions:</b> 
- ![Number of tags in the question](https://github.com/rashmisom/blogs/tree/master/images/num_of_times_tag_appeared.png)
+ ![Number of tags in the question](../images/num_of_times_tag_appeared.png)
     
 4. <b>Top 10 important tags:</b>  ['.a', '.app', '.aspxauth', '.bash-profile', '.class-file', '.cs-file', '.doc', '.drv', '.ds-store', '.each']
 
