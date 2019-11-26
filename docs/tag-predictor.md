@@ -182,22 +182,21 @@ Lets do a the data analysis now:
     
 3. <b>Distribution of number of times tag appeared questions:</b> 
  ![Number of tags in the question](../images/num_of_times_tag_appeared.png)
+ 
+4. <b>Distribution of top 100 tags:</b> 
+ ![Top 100 tags](../images/top_100_tags.png)
     
-4. <b>Top 10 important tags:</b>  ['.a', '.app', '.aspxauth', '.bash-profile', '.class-file', '.cs-file', '.doc', '.drv', '.ds-store', '.each']
+5. <b>Most frequent tags:</b>   
+![Most frequent tags](../images/frequent_tags.png)
 
-5. Few number of tags have appeared more than 50000 times & the top 25 tags have appeared more than 10000 times
-![Distribution of number of times tag appeared in questions(for first 100 tags)] 
+6. <b>Average number of tags per questions:</b>   
+![Most frequent tags](../images/num_tags_in_ques.png)
 
-6. <b>Tags analysis</b>
-    1. Maximum number of tags per question: 5
-    2. Minimum number of tags per question: 1
-    3. Avg. number of tags per question: 2.887779
-    4. Questions with 3 tags appeared more in number
-    ![Number of tags in the question]({{site.baseurl}}data/images/stackoverflow/question_with_tag_frequency.png)
-    5. Word cloud of tags
-    ![Word cloud of tags]({{site.baseurl}}data/images/stackoverflow/word_cloud.png)
-    6.`C#` appears most number of times, `Java` is the second most. Majority of the most frequent tags are programming language. And here is the chart for top 20 tags
-    ![frequency of top 20 tags]({{site.baseurl}}data/images/stackoverflow/frequency_of_top_20_tags.png)
+
+## Observations:
+>Majority of the most frequent tags are programming language.
+>C# is the top most frequent programming language.
+>Android, IOS, Linux and windows are among the top most frequent operating systems.
 
 ---    
     
