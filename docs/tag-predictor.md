@@ -228,11 +228,11 @@ maximum number of questions. So say if we select 500 tags then lets see how many
 ![questions covered the the tags](../images/question_covered.png)
 <br> As we can see in the graph,
 -with  5500 tags we are covering  99.015 % of questions <br>
--with  500 tags we are covering  92.5 % of questions <br>
+-with  500 tags we are covering  92.5 % of questions 
 
 <h5>How do we handle the multilabel target, i.e. Y is multi label and not multiclass</h5>
-<br> We will solve this by using OneVsRestClassifier, i.e. it will handle each label (in our case tag) as a separate single class classification problem.
-Note:[analytics vidhya's blog](https://www.analyticsvidhya.com/blog/2017/08/introduction-to-multi-label-classification/){:target="_blank"}  has explained in detail the techniques to solve a Multi-Label classification problem.
+We will solve this by using OneVsRestClassifier, i.e. it will handle each label (in our case tag) as a separate single class classification problem.
+<br>Note:[analytics vidhya's blog](https://www.analyticsvidhya.com/blog/2017/08/introduction-to-multi-label-classification/){:target="_blank"}  has explained in detail the techniques to solve a Multi-Label classification problem.
 
 <h4>Train and Test data</h4>
 Let us randomly split the data into 80% train set & 20% test set
