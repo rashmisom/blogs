@@ -143,10 +143,42 @@ https://www.kaggle.com/wiki/HammingLoss <br>
 ---
 ## EDA (Exploratory Data Analysis)
 
-I have used [pandas](https://pandas.pydata.org/){:target="blank"} library to load the data. Please visit [my github repo](https://github.com/SachinKalsi/machine-learning-case-studies/tree/master/stackoverflow_tag_preditor){:target="_blank"} to see the full code. I have taken a sample of 1000000 (10 lakh) data points from Train.csv. Here is a list of major observations from EDA.
+We can save the csv files in the db files and continue with our data analysis.
 
-1. <b>Number of rows in the database:</b> 1000000
-2. <b>5.6% of the questions are duplicate:</b> Number of rows after removing duplicates:  943582
+<pre><code>
+if not os.path.isfile('train.db'):
+    start = datetime.now()
+    disk_engine = create_engine('sqlite:///train.db')
+    start = dt.datetime.now()
+    chunksize = 180000
+    j = 0
+    index_start = 1
+    for df in pd.read_csv('Train.csv', names=['Id', 'Title', 'Body', 'Tags'], chunksize=chunksize, 
+                          iterator=True, encoding='utf-8', ):
+        df.index += index_start
+        j+=1
+        print('{} rows'.format(j*chunksize))
+        df.to_sql('data', disk_engine, if_exists='append')
+        index_start = df.index[-1] + 1
+    print("Time taken to run this cell :", datetime.now() - start)
+  
+  </code></pre>
+
+Lets do a the data analysis now:
+
+1. <b>Counting the number of rows:</b> 
+      <pre><code>
+        num_rows = pd.read_sql_query("""SELECT count(*) FROM data""", con)
+      </code></pre>
+    and we get total row count as: 6034196
+
+2. <b> Checking for duplicates
+   <pre><code>
+      df_no_dup = pd.read_sql_query('SELECT Title, Body, Tags, COUNT(*) as cnt_dup FROM data GROUP BY Title, Body, Tags', con)
+      print("number of duplicate questions :", num_rows['count(*)'].values[0]- df_no_dup.shape[0], "(",(1-((df_no_dup.shape[0])/(num_rows['count(*)'].values[0])))*100,"% )")
+   </code></pre>
+    
+    and we get : number of duplicate questions : 1827881 ( 30.292038906260256 % )
 3. <b>Number of unique tags:</b> 34945
 4. <b>Top 10 important tags:</b>  ['.a', '.app', '.aspxauth', '.bash-profile', '.class-file', '.cs-file', '.doc', '.drv', '.ds-store', '.each']
 
