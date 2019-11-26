@@ -206,29 +206,38 @@ Lets do a the data analysis now:
 
 ### preprocessing
 <ol>
-  <li>56.37% percentage of questions contains HTML tag &lt;code&gt; tag. So separate out code-snippets from  the Body</li>
-  <li>Remove Spcial characters from title and Body (not in code)</li>
-  <li><b>Remove stop words (Except 'C')</b></li>
-  <li>Remove HTML Tags</li>
-  <li>Convert all the characters into small letters</li>
-  <li>Use SnowballStemmer to stem the words.<br><br>
-  <i>Stemming is the process of reducing a word to its word stem. <br>
-  <b>For Example:</b> "python" is the stem word for the words ["python" "pythoner", "pythoning","pythoned"]</i></li>
-  <li><b>Give more weightage to title: Add title three times to the question</b>. Title contains the information which is more specific to the question and also only after seeing the question title, a user decides whether to look into the question in detail. At least most of the users do this if not all </li>
+ <li>Sample .1M data points, sample data depending on you computer computing power. It takes lot of time to handle this size data. </li>
+ <li>Separate out code-snippets from Body </li></li>
+ <li>Remove Spcial characters from Question title and description (not in code)</li>
+ <li>Remove stop words (Except 'C') </li>
+ <li>Remove HTML Tags </li>
+ <li>Convert all the characters into small letters</li> 
+ <li>Use SnowballStemmer to stem the words </li>
 </ol>
 
 <h5>Sample question after preprocessing:</h5>
 
->"modifi whoi contact detail modifi whoi contact detail modifi whoi contact detail use modifi function display warn mesag pleas help modifi contact detail"
+>('behavior rang python arang numpi someon pleas explain ni somewhat new numpi seem bizarr',)
 
 ---
 ## Machine Learning Models
 
 <i>
-Total number of questions: 500000<br>
-Total number of tags: 30645
+The total Number of unique tags : 42048. Let us use partial covering i.e. lets take a subset of these tags and try to cover 
+maximum number of questions. So say if we select 500 tags then lets see how many total questions are covered by these 500 tags.
 </i>
+<b>
+  <pre><code>
+  questions_explained = []
+  total_tags=multilabel_y.shape[1]
+  total_qs=preprocessed_data.shape[0]
+  for i in range(500, total_tags, 100):
+      questions_explained.append(np.round(((total_qs-questions_explained_fn(i))/total_qs)*100,3))
+    
+ </code></pre>
+<br>Lets plot this data:
 
+![questions covered the the tags](../images/question_covered.png)
 Here we are going to use <i><b>Problem Transformation(Binary Relevance)</b></i> method to solve the problem.
 
 <h4>Binary Relevance:</h4> Here we are going to convert multi-label classification problem into multiple single class classification problems.For example if we are having 5 multi-label classification problem, then we need to train 5 single class classification models.
