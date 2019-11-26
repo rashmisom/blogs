@@ -2,6 +2,7 @@
 layout: default
 title: Stack Overflow Tag Prediction
 description: Lets suggest the tags
+repository_url: https://github.com/rashmisom/tag-prediction
 ---
 
 If you are a software engineer or a programmer you must have used [stackoverflow](https://stackoverflow.com){:target="_blank"} atleast once in your life time. 
