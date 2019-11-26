@@ -183,7 +183,7 @@ Lets do a the data analysis now:
 3. <b>Distribution of number of times tag appeared questions:</b> 
  ![Number of tags in the question](../images/num_of_times_tag_appeared.png)
  
-4. <b>Distribution of top 100 tags:</b> 
+3. <b>Distribution of top 100 tags:</b> 
  ![Top 100 tags](../images/top_100_tags.png)
     
 5. <b>Most frequent tags:</b>   
@@ -193,10 +193,10 @@ Lets do a the data analysis now:
 ![Most frequent tags](../images/num_tags_in_ques.png)
 
 
-## Observations:
->Majority of the most frequent tags are programming language.
->C# is the top most frequent programming language.
->Android, IOS, Linux and windows are among the top most frequent operating systems.
+### Observations:
+-Majority of the most frequent tags are programming language.<br>
+-C# is the top most frequent programming language.<br>
+-Android, IOS, Linux and windows are among the top most frequent operating systems.<br>
 
 ---    
     
