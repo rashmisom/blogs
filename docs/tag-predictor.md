@@ -43,12 +43,8 @@ Click [here](https://www.kaggle.com/c/facebook-recruiting-iii-keyword-extraction
 
 ### Sample data point
 
-<b>Id</b>: 5
-
 <b>Title:</b>Implementing Boundary Value Analysis of Software Testing in a C++ program?
-
 <b>Body:</b>
-
 <pre><code><b>
         #include&lt;
         iostream&gt;\n
