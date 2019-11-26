@@ -370,5 +370,9 @@ print(x)
 | SVM | 0.21394838146389217 | 0.4316022630230572 |  0.2860832264626542 |
 
  
-
+<h4> Observation</h4>
+Because we have taken a very small subset of data, our results are not looking very good.
+WIth better computing power, we should try with more data to get better results.
+<br> Among the tried algorithms, Logistic Regression with Bag of Words featurization seems to be giving better results.
+<br>We can also try different way to handle the multilabels, using other approach like scikit-multilearn library.
  
