@@ -63,7 +63,7 @@ test_df = pd.read_csv("test.csv")
   </b></code></pre>
  
  <p> Once we have the data loaded, we must preprocess the data before submitting it to the ML model for training.
- Lets look into abstract of the data preprocessing and the details of the same is available on the https://github.com/rashmisom/Tweets-NLP-sentiment.
+ Lets look into abstract of the data preprocessing and the details of the same is available on the <a>https://github.com/rashmisom/Tweets-NLP-sentiment </a>.
 
 <pre><code><b>   
         ## decontract the text,remove html etc
@@ -84,7 +84,7 @@ test_df = pd.read_csv("test.csv")
         sent = ' '.join(e for e in sent.split() if e not in stopwords and e not in punctuations)
   </b></code></pre>       
 
----
+
 
 ## How to use BERT for text classification. Lets look into the steps one by one:
 ### We will use the official tokenization script created by the Google team.
@@ -182,7 +182,7 @@ def bert_encode(texts, tokenizer, max_len=512):
     y_pred = model_tweet_BERT.predict(test_input)
   </b></code></pre>
 
----
+
 
 ## Model performance:
 The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
