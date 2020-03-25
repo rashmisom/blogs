@@ -90,9 +90,9 @@ test_df = pd.read_csv("test.csv")
 
 !wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
 
-<br>The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
+The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
 
- ### Load BERT from the Tensorflow Hub
+ ### Let us load BERT from the Tensorflow Hub:
 <pre><code><b>
     module_url = "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"
     bert_layer = hub.KerasLayer(module_url, trainable=True)
@@ -117,7 +117,7 @@ The deails of the method <u>bert_encode</u> will be discussed later.
     train_labels = train_df.target.values
   </b></code></pre>
   
-### Build the model and train it
+### Build the model and train it:
 <pre><code><b>
     model_tweet_BERT = build_model(bert_layer, max_len=160)
     checkpoint = ModelCheckpoint('model_tweet.h5', monitor='val_loss', save_best_only=True)    
@@ -131,8 +131,8 @@ The deails of the method <u>bert_encode</u> will be discussed later.
     )
   </b></code></pre>
   
-## Lets build the model using KERAS layer on top of the BERT layer.
-### This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
+### Lets check the layers of our model. We will build the model using KERAS layer on top of the BERT layer.
+This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
  <pre><code><b>
 def build_model(bert_layer, max_len=512):
     input_word_ids =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_word_ids")
@@ -170,7 +170,7 @@ def bert_encode(texts, tokenizer, max_len=512):
     return np.array(all_tokens), np.array(all_masks), np.array(all_segments)
     </b></code></pre>
      
-### Test data and predict method
+### Last but not the least, lets not forget the Test data and predict method:
 <pre><code><b>
     # Encode the text into tokens, masks and segments
     test_input = bert_encode(test_df.clean_text.values, tokenizer, max_len=160)
@@ -181,6 +181,27 @@ def bert_encode(texts, tokenizer, max_len=512):
     y_pred = model_tweet_BERT.predict(test_input)
   </b></code></pre>
 
-
+---
+## Model performance:
+The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
+<pre><code><b>
+    print(bert_history.history["accuracy"])
+    print(bert_history.history["val_accuracy"])    
+    plot_graphs(bert_history,"accuracy")
+ </b></code></pre>
+ 
+<p>How can we forget the utility method
+<pre><code><b>
+def plot_graphs(history, metric):
+    plt.plot(history.history[metric])
+    plt.plot(history.history['val_'+metric], '')
+    plt.xlabel("Epochs")
+    plt.ylabel(metric)
+    plt.legend([metric, 'val_'+metric])
+    plt.show()
+    
+  </b></code></pre>
+  
+  The performance of the model can be further improved by fine tuning the hyper parameters of the model.
 
  
