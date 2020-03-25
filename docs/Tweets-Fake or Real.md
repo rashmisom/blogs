@@ -29,14 +29,18 @@ If not, predict a 0
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
 
+---
+
 ### The features involved are
 
-id - a unique identifier for each tweet 
-text - the text of the tweet 
-location - the location the tweet was sent from (may be blank) 
-keyword - a particular keyword from the tweet (may be blank) 
-target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
+1. id - a unique identifier for each tweet 
+2. text - the text of the tweet 
+3. location - the location the tweet was sent from (may be blank) 
+4. keyword - a particular keyword from the tweet (may be blank) 
+5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
+
 ---
+
 ## Mapping the Business problem to a Machine Learning Problem 
 
 ### Type of Machine Learning Problem
