@@ -16,7 +16,13 @@ In this blog, let us discuss one approach to solve this problem statement.<br>
  
 ## Problem Statement
 
-To build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t.
+To build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
+Any machine learning model has to learn the weights for the features on which the model is trained. For the NLP task, we have different 
+approaches to convert the textual data into the format in which the machine can read it and learn.
+
+BERT, or Bidirectional Encoder Representations from Transformers, is a new method of pre-training language representations which obtains state-of-the-art results on a wide array of Natural Language Processing (NLP) tasks.
+
+Since, we have a small training dataset and few features. As the training  dataset is small, it is good to use a pre trained BERT model to get the  embedding for the sentence[text data] that we can use for  classification.
 
 ---
 
