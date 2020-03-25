@@ -23,8 +23,8 @@ To build a machine learning model that predicts which Tweets are about real disa
 ### Data Format
 
 We have access to a dataset of 10,000 tweets that were hand classified.
-We are predicting whether a given tweet is about a real disaster or not.
-If so, predict a 1
+We are predicting whether a given tweet is about a real disaster or not.<br>
+If so, predict a 1<br>
 If not, predict a 0
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
@@ -43,10 +43,27 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 ## Mapping the Business problem to a Machine Learning Problem 
 
+
+1. Prepare data for the model¶
 ### Type of Machine Learning Problem
 
 <b><i>It is a binary classification problem.</i></b>
 
- 
+ # We will use the official tokenization script created by the Google team
+!wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
+
+
+Next, we tokenize the data using the tf-hub model, which simplifies preprocessing:
+<pre><code><b>
+    # Load tokenizer from the bert layer
+    vocab_file = bert_layer.resolved_object.vocab_file.asset_path.numpy()
+    do_lower_case = bert_layer.resolved_object.do_lower_case.numpy()
+    tokenizer = tokenization.FullTokenizer(vocab_file, do_lower_case)  
+  </b></code></pre>
+We next build a custom layer using Keras, integrating BERT from tf-hub.
+
+### Helper Functions
+
+
 
  
