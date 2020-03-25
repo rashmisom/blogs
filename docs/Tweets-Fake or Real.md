@@ -17,9 +17,8 @@ In this blog, let us discuss one approach to solve this problem statement.<br>
  
 ## Our Approach
 
-To build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
-Any machine learning model has to learn the weights for the features on which the model is trained. For the NLP task, we have different 
-approaches to convert the textual data into the format in which the machine can read it and learn.
+The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
+Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
  <br>
 Context-free models such as <b>word2vec</b> or  <b>GloVe</b> generate a single <u>"word embedding"</u> representation for each word in the vocabulary, so <i>bank</i> would have the same representation in <i>bank deposit</i>  and  <i>river bank</i> . 
 <br>Contextual models instead generate a representation of each word that is based on the other words in the sentence.
@@ -29,7 +28,7 @@ Context-free models such as <b>word2vec</b> or  <b>GloVe</b> generate a single <
 <br>
 For more details on the in depth working of BERT, kindly refer https://github.com/google-research/bert
   
-Since, we have a small training dataset and few features. As the training  dataset is small, it is good to use a pre trained BERT model to get the  embedding for the sentence[text data] that we can use for classification.
+We have a small training dataset and few features. As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence[text data] that we can use for classification. 
 
 ---
 
@@ -55,7 +54,6 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 ---
 
 ## Mapping the Business problem to a Machine Learning Problem 
-
 
 ### Prepare data for the model
 <b><i>It is a binary classification problem.</i></b>
