@@ -91,7 +91,7 @@ We next build a custom layer using Keras, integrating BERT from tf-hub.
   
 ## The build model
 ### This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
-
+ <pre><code><b>
 def build_model(bert_layer, max_len=512):
     input_word_ids =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_word_ids")
     input_mask =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_mask")
@@ -106,9 +106,10 @@ def build_model(bert_layer, max_len=512):
     model.compile(tf.keras.optimizers.Adam(lr=2e-5), loss='binary_crossentropy', metrics=['accuracy'])
     
     return model
-    
+    </b></code></pre>  
  
  ## The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
+ <pre><code><b>
 def bert_encode(texts, tokenizer, max_len=512):
     all_tokens = []
     all_masks = []
@@ -126,7 +127,8 @@ def bert_encode(texts, tokenizer, max_len=512):
         all_masks.append(pad_masks)
         all_segments.append(segment_ids)    
     return np.array(all_tokens), np.array(all_masks), np.array(all_segments)
-    
+    </b></code></pre>
+     
 # Test data and predict method
 <pre><code><b>
     # Encode the text into tokens, masks and segments
