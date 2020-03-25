@@ -87,8 +87,8 @@ test_df = pd.read_csv("test.csv")
  
 <h2> How to use BERT for text classification. Lets look into the steps one by one:</h2>
 <h3> We will use the official tokenization script created by the Google team.</h3>
-
-!wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
+<pre>
+!wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py </pre>
 
 The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
 
