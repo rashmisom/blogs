@@ -86,10 +86,11 @@ test_df = pd.read_csv("test.csv")
 
 ---
 ## How to use BERT for text classification. Lets look into the steps one by one:
-### We will use the official tokenization script created by the Google team
-The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
+### We will use the official tokenization script created by the Google team.
+
 !wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
 
+<br>The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
 
  ### Load BERT from the Tensorflow Hub
 <pre><code><b>
@@ -98,7 +99,8 @@ The processes of tokenisation involves splitting the input text into list of tok
 </b></code></pre>
 
 
-### Next, we tokenize the data using the tf-hub model, which simplifies preprocessing:
+### Next, we prepare the tokenizer using the tf-hub model:
+In order to pre-process the input and feed it to BERT model, we need to use a tokenizer.
 <pre><code><b>
     # Load tokenizer from the bert layer
     vocab_file = bert_layer.resolved_object.vocab_file.asset_path.numpy()
@@ -107,7 +109,9 @@ The processes of tokenisation involves splitting the input text into list of tok
   </b></code></pre>
 We next build a custom layer using Keras, integrating BERT from tf-hub.
 
-### Encode the text into tokens, masks and segments
+### Encode the text into tokens, masks and segments:
+BERT requires pre-processed inputs. It supports the tokens signature, which assumes pre-processed inputs: input_ids, input_mask, and segment_ids. To achieve this, we encode the data using the tokenizer built in the previous step. 
+The deails of the method <u>bert_encode</u> will be discussed later.
 <pre><code><b>
     train_input = bert_encode(train_df.clean_text.values, tokenizer, max_len=160)
     train_labels = train_df.target.values
@@ -127,26 +131,25 @@ We next build a custom layer using Keras, integrating BERT from tf-hub.
     )
   </b></code></pre>
   
-## The build model
+## Lets build the model using KERAS layer on top of the BERT layer.
 ### This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
  <pre><code><b>
 def build_model(bert_layer, max_len=512):
     input_word_ids =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_word_ids")
     input_mask =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_mask")
     segment_ids =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="segment_ids")
-
     _, sequence_output = bert_layer([input_word_ids, input_mask, segment_ids])
     clf_output = sequence_output[:, 0, :]
     x =  tf.keras.layers.Dropout(0.2)(clf_output)
-    out =  tf.keras.layers.Dense(1, activation='sigmoid')(x)
-    
+    out =  tf.keras.layers.Dense(1, activation='sigmoid')(x)    
     model =  tf.keras.Model(inputs=[input_word_ids, input_mask, segment_ids], outputs=out)
-    model.compile(tf.keras.optimizers.Adam(lr=2e-5), loss='binary_crossentropy', metrics=['accuracy'])
-    
+    model.compile(tf.keras.optimizers.Adam(lr=2e-5), loss='binary_crossentropy', metrics=['accuracy'])    
     return model
     </b></code></pre>  
  
- ### The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
+ ### Lets look into the bert_encode method which we are using to encode the text data for feeding it to the BERT layer.
+ The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
+ We first tokenize the sentence using the tokenizer created from vocab.txt . We add [CLS] to start of sentence and [SEP] to the end of the sentence. Finally, we pad the sentence with 0. As we are dealing with one sentence per example, we set segment_id to be 0 and further we set mask to 1 for all tokens.We set this mask to 0 beyond the number of tokens.
  <pre><code><b>
 def bert_encode(texts, tokenizer, max_len=512):
     all_tokens = []
