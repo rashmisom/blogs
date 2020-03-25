@@ -4,7 +4,7 @@ title: Real or Not? NLP with Disaster Tweets
 description: Real or Not? NLP with Disaster Tweets
 repository_url: https://github.com/rashmisom/Tweets-NLP-sentiment
 ---
-## Problem Statement
+<h2> Problem Statement</h2>
 
 Twitter has become an important communication channel in times of emergency. The ubiquitousness of smartphones enables people to announce an emergency they’re observing in real-time. Because of this, more agencies are interested in programatically monitoring Twitter (i.e. disaster relief organizations and news agencies).
 In this competition, you’re challenged to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t.
@@ -15,7 +15,7 @@ In this blog, let us discuss one approach to solve this problem statement.<br>
 ---
 
  
-## Our Approach
+<h2> Our Approach</h2>
 
 The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
 Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
@@ -32,7 +32,7 @@ We have a small training dataset and few features. As the training  dataset is 
 
 ---
 
-## Data Format
+<h2> Data Format</h2>
 
 We have access to a dataset of 10,000 tweets that were hand classified.
 We are predicting whether a given tweet is about a real disaster or not.<br>
@@ -43,7 +43,7 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 ---
 
-## The features involved are
+<h2> The features involved are</h2>
 
 1. id - a unique identifier for each tweet 
 2. text - the text of the tweet 
@@ -53,9 +53,9 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 ---
 
-## Mapping the Business problem to a Machine Learning Problem 
+<h2> Mapping the Business problem to a Machine Learning Problem</h2> 
 
-### Prepare data for the model
+<h3> Prepare data for the model</h3>
 We load the data from the train.csv and test.csv files.
 <pre><code><b>
 train_df = pd.read_csv("train.csv")
@@ -92,14 +92,14 @@ test_df = pd.read_csv("test.csv")
 
 The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
 
- ### Let us load BERT from the Tensorflow Hub:
+<h3> Let us load BERT from the Tensorflow Hub:</h3>
 <pre><code><b>
     module_url = "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"
     bert_layer = hub.KerasLayer(module_url, trainable=True)
 </b></code></pre>
 
 
-### Next, we prepare the tokenizer using the tf-hub model:
+<h3> Next, we prepare the tokenizer using the tf-hub model:</h3>
 In order to pre-process the input and feed it to BERT model, we need to use a tokenizer.
 <pre><code><b>
     # Load tokenizer from the bert layer
@@ -109,7 +109,7 @@ In order to pre-process the input and feed it to BERT model, we need to use a to
   </b></code></pre>
 We next build a custom layer using Keras, integrating BERT from tf-hub.
 
-### Encode the text into tokens, masks and segments:
+<h3> Encode the text into tokens, masks and segments:</h3>
 BERT requires pre-processed inputs. It supports the tokens signature, which assumes pre-processed inputs: input_ids, input_mask, and segment_ids. To achieve this, we encode the data using the tokenizer built in the previous step. 
 The deails of the method <u>bert_encode</u> will be discussed later.
 <pre><code><b>
@@ -117,7 +117,7 @@ The deails of the method <u>bert_encode</u> will be discussed later.
     train_labels = train_df.target.values
   </b></code></pre>
   
-### Build the model and train it:
+<h3> Build the model and train it:</h3>
 <pre><code><b>
     model_tweet_BERT = build_model(bert_layer, max_len=160)
     checkpoint = ModelCheckpoint('model_tweet.h5', monitor='val_loss', save_best_only=True)    
@@ -131,7 +131,7 @@ The deails of the method <u>bert_encode</u> will be discussed later.
     )
   </b></code></pre>
   
-### Lets check the layers of our model. We will build the model using KERAS layer on top of the BERT layer.
+<h3> Lets check the layers of our model. We will build the model using KERAS layer on top of the BERT layer.</h3>
 This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
  <pre><code><b>
 def build_model(bert_layer, max_len=512):
@@ -147,7 +147,7 @@ def build_model(bert_layer, max_len=512):
     return model
     </b></code></pre>  
  
- ### Lets look into the bert_encode method which we are using to encode the text data for feeding it to the BERT layer.
+<h3> Lets look into the bert_encode method which we are using to encode the text data for feeding it to the BERT layer.</h3>
  The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
  We first tokenize the sentence using the tokenizer created from vocab.txt . We add [CLS] to start of sentence and [SEP] to the end of the sentence. Finally, we pad the sentence with 0. As we are dealing with one sentence per example, we set segment_id to be 0 and further we set mask to 1 for all tokens.We set this mask to 0 beyond the number of tokens.
  <pre><code><b>
@@ -170,7 +170,7 @@ def bert_encode(texts, tokenizer, max_len=512):
     return np.array(all_tokens), np.array(all_masks), np.array(all_segments)
     </b></code></pre>
      
-### Last but not the least, lets not forget the Test data and predict method:
+<h3> Last but not the least, lets not forget the Test data and predict method:</h3>
 <pre><code><b>
     # Encode the text into tokens, masks and segments
     test_input = bert_encode(test_df.clean_text.values, tokenizer, max_len=160)
@@ -183,7 +183,7 @@ def bert_encode(texts, tokenizer, max_len=512):
 
 
 
-## Model performance:
+<h2> Model performance:</h2>
 The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
 <pre><code><b>
     print(bert_history.history["accuracy"])
