@@ -26,7 +26,7 @@ Context-free models such as <b>word2vec</b> or  <b>GloVe</b> generate a single <
  <br>
 <b>BERT</b> was built upon recent work in pre-training contextual representations — including <b>Semi-supervised Sequence Learning, Generative Pre-Training, ELMo, and ULMFit </b>— but crucially these models are all unidirectional or shallowly bidirectional. This means that each word is only contextualized using the words to its left (or right). For example, in the sentence I made a bank deposit the unidirectional representation of bank is only based on I made a but not deposit. Some previous work does combine the representations from separate left-context and right-context models, but only in a "shallow" manner. BERT represents "bank" using both its left and right context — I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
 <br>
-For more details on the in depth working of BERT, kindly refer https://github.com/google-research/bert
+For more details on the in depth working of BERT, kindly refer <a> https://github.com/google-research/bert </a>
   
 We have a small training dataset and few features. As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence[text data] that we can use for classification. 
 
@@ -85,6 +85,7 @@ test_df = pd.read_csv("test.csv")
   </b></code></pre>       
 
 ---
+
 ## How to use BERT for text classification. Lets look into the steps one by one:
 ### We will use the official tokenization script created by the Google team.
 
@@ -182,6 +183,7 @@ def bert_encode(texts, tokenizer, max_len=512):
   </b></code></pre>
 
 ---
+
 ## Model performance:
 The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
 <pre><code><b>
