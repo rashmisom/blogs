@@ -84,9 +84,8 @@ test_df = pd.read_csv("test.csv")
         sent = ' '.join(e for e in sent.split() if e not in stopwords and e not in punctuations)
   </b></code></pre>
 
----
-
-## How to use BERT for text classification. Lets look into the steps one by one:
+ 
+<h2> How to use BERT for text classification. Lets look into the steps one by one:</h2>
 ### We will use the official tokenization script created by the Google team.
 
 !wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
