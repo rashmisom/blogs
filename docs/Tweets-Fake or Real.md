@@ -82,10 +82,8 @@ test_df = pd.read_csv("test.csv")
         sent = correct_spellings(sent)
         ## remove the stopwords
         sent = ' '.join(e for e in sent.split() if e not in stopwords and e not in punctuations)
-  </b></code></pre>       
-
-
-
+  </b></code></pre>
+  
 ## How to use BERT for text classification. Lets look into the steps one by one:
 ### We will use the official tokenization script created by the Google team.
 
