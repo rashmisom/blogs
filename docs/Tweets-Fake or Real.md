@@ -85,7 +85,7 @@ test_df = pd.read_csv("test.csv")
   </b></code></pre>
 
 ---
-  
+
 ## How to use BERT for text classification. Lets look into the steps one by one:
 ### We will use the official tokenization script created by the Google team.
 
