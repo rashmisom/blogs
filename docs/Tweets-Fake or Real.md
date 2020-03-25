@@ -32,7 +32,7 @@ We have a small training dataset and few features. As the training  dataset is 
 
 ---
 
-### Data Format
+## Data Format
 
 We have access to a dataset of 10,000 tweets that were hand classified.
 We are predicting whether a given tweet is about a real disaster or not.<br>
@@ -43,7 +43,7 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 ---
 
-### The features involved are
+## The features involved are
 
 1. id - a unique identifier for each tweet 
 2. text - the text of the tweet 
@@ -56,7 +56,33 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 ## Mapping the Business problem to a Machine Learning Problem 
 
 ### Prepare data for the model
-<b><i>It is a binary classification problem.</i></b>
+We load the data from the train.csv and test.csv files.
+<pre><code><b>
+train_df = pd.read_csv("train.csv")
+test_df = pd.read_csv("test.csv")
+  </b></code></pre>
+ 
+ <p> Once we have the data loaded, we must preprocess the data before submitting it to the ML model for training.
+ Lets look into abstract of the data preprocessing and the details of the same is available on the https://github.com/rashmisom/Tweets-NLP-sentiment.
+
+<pre><code><b>   
+        ## decontract the text,remove html etc
+        sent = cleanText(sentance)
+        ## some more data updates
+        sent = sent.replace('\\r', ' ').replace('\\"', ' ').replace('\\n', ' ').replace(",000,000", "m")\
+                           .replace(",000", "k").replace("′", "'").replace("’", "'")\
+                           .replace("won't", "will not").replace("cannot", "can not").replace("can't", "can not")\
+                           .replace("n't", " not").replace("what's", "what is").replace("it's", "it is")\
+                           .replace("'ve", " have").replace("i'm", "i am").replace("'re", " are")\
+                           .replace("he's", "he is").replace("she's", "she is").replace("'s", " own")\
+                           .replace("%", " percent ").replace("₹", " rupee ").replace("$", " dollar ")\
+                           .replace("€", " euro ").replace("'ll", " will")
+        sent = re.sub('[^A-Za-z0-9]+', ' ', sent)
+        ## correct the spellings
+        sent = correct_spellings(sent)
+        ## remove the stopwords
+        sent = ' '.join(e for e in sent.split() if e not in stopwords and e not in punctuations)
+  </b></code></pre>       
 
 ---
 ## How to use BERT for text classification. Lets look into the steps one by one:
@@ -65,14 +91,14 @@ The processes of tokenisation involves splitting the input text into list of tok
 !wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
 
 
- # Load BERT from the Tensorflow Hub
+ ### Load BERT from the Tensorflow Hub
 <pre><code><b>
     module_url = "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"
     bert_layer = hub.KerasLayer(module_url, trainable=True)
 </b></code></pre>
 
 
-# Next, we tokenize the data using the tf-hub model, which simplifies preprocessing:
+### Next, we tokenize the data using the tf-hub model, which simplifies preprocessing:
 <pre><code><b>
     # Load tokenizer from the bert layer
     vocab_file = bert_layer.resolved_object.vocab_file.asset_path.numpy()
@@ -81,13 +107,13 @@ The processes of tokenisation involves splitting the input text into list of tok
   </b></code></pre>
 We next build a custom layer using Keras, integrating BERT from tf-hub.
 
-# Encode the text into tokens, masks and segments
+### Encode the text into tokens, masks and segments
 <pre><code><b>
     train_input = bert_encode(train_df.clean_text.values, tokenizer, max_len=160)
     train_labels = train_df.target.values
   </b></code></pre>
   
-# Build the model and train it
+### Build the model and train it
 <pre><code><b>
     model_tweet_BERT = build_model(bert_layer, max_len=160)
     checkpoint = ModelCheckpoint('model_tweet.h5', monitor='val_loss', save_best_only=True)    
@@ -120,7 +146,7 @@ def build_model(bert_layer, max_len=512):
     return model
     </b></code></pre>  
  
- ## The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
+ ### The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
  <pre><code><b>
 def bert_encode(texts, tokenizer, max_len=512):
     all_tokens = []
@@ -141,18 +167,14 @@ def bert_encode(texts, tokenizer, max_len=512):
     return np.array(all_tokens), np.array(all_masks), np.array(all_segments)
     </b></code></pre>
      
-# Test data and predict method
+### Test data and predict method
 <pre><code><b>
     # Encode the text into tokens, masks and segments
     test_input = bert_encode(test_df.clean_text.values, tokenizer, max_len=160)
- 
-
     # Build the model
-    model_tweet_BERT = build_model(bert_layer, max_len=160)
-    
+    model_tweet_BERT = build_model(bert_layer, max_len=160)    
     # load weights
     model_tweet_BERT.load_weights("model_tweet.h5")   
-
     y_pred = model_tweet_BERT.predict(test_input)
   </b></code></pre>
 
