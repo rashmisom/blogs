@@ -53,6 +53,13 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 !wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py
 
 
+ # Load BERT from the Tensorflow Hub
+<pre><code><b>
+    module_url = "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"
+    bert_layer = hub.KerasLayer(module_url, trainable=True)
+</b></code></pre>
+
+
 Next, we tokenize the data using the tf-hub model, which simplifies preprocessing:
 <pre><code><b>
     # Load tokenizer from the bert layer
