@@ -262,8 +262,6 @@ def bert_encode(texts, tokenizer, max_len=512):
     y_pred = model_tweet_BERT.predict(test_input)
   </b></code></pre>
 
-
-
 <h2> Model performance:</h2>
 The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
 <pre><code><b>
@@ -284,7 +282,13 @@ def plot_graphs(history, metric):
     
   </b></code></pre>
   
-  The performance of the model can be further improved by fine tuning the hyper parameters of the model.
+ <h3>Kaggle Submission<h3>
+ On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further improved by the suggestions listed in the "Future Work" section of this blog.
+ ![Kaggle Submission](../images/kaggle_sub2.png)
+ 
+ <h3>Future work</h3>
+  1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.
+  2. Instead of fine tuning the BERT module, we can try to train only the top two or top four layers and check out result.
 
  <h3>References</h3>
  
