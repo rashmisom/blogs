@@ -60,18 +60,18 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 Let us analyse the data a bit.<br>
 
-   1. <b>Lets check on the 'target', the dependent variable distribution:</b>
+ 1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
-  ![Target Distribution](../images/target_distribution.png)
+ ![Target Distribution](../images/target_distribution.png)
   
-   2. <b> Checking for the TOP 'keywords'</b>
+ 2. <b> Checking for the TOP 'keywords'</b>
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
       plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
    </b></code></pre>
-    ![Top Keywords](../images/top_keywords.png)
+ ![Top Keywords](../images/top_keywords.png)
     
 3. <b>Distribution of 'keywords' for Real and Fake tweets:</b> 
 The complete code for <i>univariate_barplots</i> is available at <a href="https://github.com/rashmisom/Tweets-NLP-sentiment"> here </a>
