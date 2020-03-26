@@ -65,27 +65,27 @@ Let us analyse the data a bit.<br>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
  ![Target Distribution](../images/target_distribution.png)
-  
+  <br>
  2. <b> Checking for the TOP 'keywords'</b>
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
       plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
    </b></code></pre>
  ![Top Keywords](../images/top_keywords.png)
-    
+<br>    
 3. <b>Distribution of 'keywords' for Real and Fake tweets:</b> 
 The complete code for <i>univariate_barplots</i> is available at <a href="https://github.com/rashmisom/Tweets-NLP-sentiment"> here </a>
  <pre><code><b>
       univariate_barplots(train_df,'keyword','target',1,21) 
  </b></code></pre>
  ![Keyword Distribution](../images/keyword_distribution.png)
-
+<br>
 4. <b>Distribution of 'Location' for Real and Fake tweets:</b> 
 <pre><code><b>
      univariate_barplots(train_df,'location','target',1,41)
 </b></code></pre>
  ![Location Distribution](../images/location_distribution.png)
- 
+<br> 
  5. <b>Lets see the 'Number of words" in the tweets:</b> 
 <pre><code><b>
      disaster_word_count = train_df[train_df['target']==1]['text'].str.split().apply(len)
@@ -102,28 +102,28 @@ The complete code for <i>univariate_barplots</i> is available at <a href="https:
  ![Number of words](../images/num_of_words.png)
  <br>
  ![Number of words](../images/num_words_dist.png)
- 
+ <br>
  6. <b>Number of characters in the tweet text:</b> 
  <pre><code><b>
      ax1.hist(real_char_len,color='blue')
      ax2.hist(fake_char_len,color='green')
 </b></code></pre>
  ![Number of Characters](../images/num_of_char.png)
- 
+ <br>
   7. <b>Average word length in a tweet text:</b> 
  <pre><code><b>
      sns.distplot(real_disaster_word_count.map(lambda x: np.mean(x)),ax=ax1,color='blue')
      sns.distplot(fake_disaster_word_count.map(lambda x: np.mean(x)),ax=ax2,color='green')
 </b></code></pre>
  ![Average word length](../images/avg_word_len.png)
- 
+ <br>
    8. <b>The punctuation marks in the tweets:</b> 
  <pre><code><b>
      sns.distplot(real_disaster_punctuation_marks,ax=ax1,color='blue')
      sns.distplot(fake_disaster_punctuation_marks,ax=ax2,color='green')
 </b></code></pre>
  ![Punctuation Marks](../images/punctuation_marks.png)
- 
+ <br>
    9. <b>Word Cloud for the real and fake disaster tweets:</b> 
  <pre><code><b>
      tweet_wordcloud(train_df[train_df["target"]==1], title="Train Data Tweets of Real Disaster")
@@ -132,9 +132,7 @@ The complete code for <i>univariate_barplots</i> is available at <a href="https:
  ![Real tweets](../images/wc1.png) <br>
  ![Fake tweets](../images/wc2.png)
  
----
-
-<h2> Mapping the Business problem to a Machine Learning Problem</h2> 
+ <h2> Mapping the Business problem to a Machine Learning Problem</h2> 
 
 <h3> Prepare data for the model</h3>
 We load the data from the train.csv and test.csv files.
