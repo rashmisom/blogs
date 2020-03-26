@@ -57,6 +57,32 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 ---
 
+<h2> EDA (Exploratory Data Analysis)</h2>
+<h3>Lets us analyse the data a bit.</h3>
+
+1. <b>LEts check on the target, the dependent variable distribution:</b> 
+      <pre><code><b>
+        sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
+      </b></code></pre>
+    and we get 
+     ![Target Distribution](../images/target_distribution.png)
+
+2. <b> Checking for the TOP keywords
+   <pre><code><b>
+      keyword_value_count = train_df["keyword"].value_counts()
+      plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
+   </b></code></pre>
+    ![Top Keywords](../images/top_keywords.png)
+    
+3. <b>Distribution of keywords for Real and Fake tweets:</b> 
+The complete code for <i>univariate_barplots</i> is available at <a href="https://github.com/rashmisom/Tweets-NLP-sentiment"> here </a>
+ <pre><code><b>
+      univariate_barplots(train_df,'keyword','target',1,21) 
+ </b></code></pre>
+ ![Keyword Distribution](../images/keyword_distribution.png)
+
+---
+
 <h2> Mapping the Business problem to a Machine Learning Problem</h2> 
 
 <h3> Prepare data for the model</h3>
