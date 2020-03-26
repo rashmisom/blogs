@@ -55,21 +55,18 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 4. keyword - a particular keyword from the tweet (may be blank) 
 5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
 
----
 
 <h2> EDA (Exploratory Data Analysis)</h2>
 
 Let us analyse the data a bit.
-
-1. <b>Lets check on the 'target', the dependent variable distribution:</b>
-
+   1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
  
- ![Target Distribution](../images/target_distribution.png)
+   ![Target Distribution](../images/target_distribution.png)
 
-2. <b> Checking for the TOP 'keywords'
+   2. <b> Checking for the TOP 'keywords'
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
       plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
