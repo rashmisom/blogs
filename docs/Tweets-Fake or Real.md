@@ -32,41 +32,42 @@ The problem in hand is to build a machine learning model that predicts which Twe
 <br>
 For more details on the in depth working of BERT, kindly refer <a> https://github.com/google-research/bert </a>
   
-We have a small training dataset and few features. As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence[text data] that we can use for classification. 
+We have a small training dataset and few features. 
+<br>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
 
 <h2> Data Format</h2>
 
 We have access to a dataset of 10,000 tweets that were hand classified.
 We are predicting whether a given tweet is about a real disaster or not.<br>
 If so, predict a 1<br>
-If not, predict a 0
+If not, predict a 0<br>
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
 
 <h2> The features involved are</h2>
 
-1. id - a unique identifier for each tweet
+1. id - a unique identifier for each tweet<br>
 
-2. text - the text of the tweet
+2. text - the text of the tweet<br>
 
-3. location - the location the tweet was sent from (may be blank)
+3. location - the location the tweet was sent from (may be blank)<br>
 
-4. keyword - a particular keyword from the tweet (may be blank)
+4. keyword - a particular keyword from the tweet (may be blank)<br>
 
-5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
+5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)<br>
 
 <h2> EDA (Exploratory Data Analysis)</h2>
 
-Let us analyse the data a bit.
+Let us analyse the data a bit.<br>
 
    1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
- 
+ <br>
    ![Target Distribution](../images/target_distribution.png)
-   
-   2. <b> Checking for the TOP 'keywords'
+   <br>
+   2. <b> Checking for the TOP 'keywords'</b>
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
       plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
