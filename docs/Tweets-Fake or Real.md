@@ -4,7 +4,7 @@ title: Real or Not? NLP with Disaster Tweets
 description: Real or Not? NLP with Disaster Tweets
 repository_url: https://github.com/rashmisom/Tweets-NLP-sentiment
 ---
-<h2> Problem Statement</h2>
+## Problem Statement
 
 Twitter has become an important communication channel in times of emergency. The ubiquitousness of smartphones enables people to announce an emergency they’re observing in real-time. Because of this, more agencies are interested in programatically monitoring Twitter (i.e. disaster relief organizations and news agencies).
 In this competition, you’re challenged to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t.
@@ -15,7 +15,7 @@ In this blog, let us discuss one approach to solve this problem statement.<br/>
 ---
 
  
-<h2> Our Approach</h2>
+## Our Approach
 
 The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
 <p>Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
@@ -35,7 +35,7 @@ For more details on the in depth working of BERT, kindly refer <a> https://githu
 We have a small training dataset and few features. 
 <br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
 
-<h2> Data Format</h2>
+## Data Format
 
 We have access to a dataset of 10,000 tweets that were hand classified.
 We are predicting whether a given tweet is about a real disaster or not.<br/>
@@ -44,21 +44,17 @@ If not, predict a 0<br/>
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
 
-<h2> The features involved are</h2>
+## The features involved are
 
-1. id - a unique identifier for each tweet<br/>
+1. id - a unique identifier for each tweet
+2. text - the text of the tweet
+3. location - the location the tweet was sent from (may be blank)
+4. keyword - a particular keyword from the tweet (may be blank)
+5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
 
-2. text - the text of the tweet<br/>
+## EDA (Exploratory Data Analysis)
 
-3. location - the location the tweet was sent from (may be blank)<br/>
-
-4. keyword - a particular keyword from the tweet (may be blank)<br/>
-
-5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)<br/>
-
-<h2> EDA (Exploratory Data Analysis)</h2>
-
-Let us analyse the data a bit.<br/>
+Let us analyse the data a bit.
 
  1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
@@ -72,20 +68,20 @@ Let us analyse the data a bit.<br/>
       plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
    </b></code></pre>
  ![Top Keywords](../images/top_keywords.png)
-<br>    
+   
 3. <b>Distribution of 'keywords' for Real and Fake tweets:</b> 
 The complete code for <i>univariate_barplots</i> is available at <a href="https://github.com/rashmisom/Tweets-NLP-sentiment"> here </a>
  <pre><code><b>
       univariate_barplots(train_df,'keyword','target',1,21) 
  </b></code></pre>
  ![Keyword Distribution](../images/keyword_distribution.png)
-<br>
+ 
 4. <b>Distribution of 'Location' for Real and Fake tweets:</b> 
 <pre><code><b>
      univariate_barplots(train_df,'location','target',1,41)
 </b></code></pre>
  ![Location Distribution](../images/location_distribution.png)
-<br> 
+  
  5. <b>Lets see the 'Number of words" in the tweets:</b> 
 <pre><code><b>
      disaster_word_count = train_df[train_df['target']==1]['text'].str.split().apply(len)
@@ -102,28 +98,28 @@ The complete code for <i>univariate_barplots</i> is available at <a href="https:
  ![Number of words](../images/num_of_words.png)
  <br>
  ![Number of words](../images/num_words_dist.png)
- <br>
+ 
  6. <b>Number of characters in the tweet text:</b> 
  <pre><code><b>
      ax1.hist(real_char_len,color='blue')
      ax2.hist(fake_char_len,color='green')
 </b></code></pre>
  ![Number of Characters](../images/num_of_char.png)
- <br>
+ 
   7. <b>Average word length in a tweet text:</b> 
  <pre><code><b>
      sns.distplot(real_disaster_word_count.map(lambda x: np.mean(x)),ax=ax1,color='blue')
      sns.distplot(fake_disaster_word_count.map(lambda x: np.mean(x)),ax=ax2,color='green')
 </b></code></pre>
  ![Average word length](../images/avg_word_len.png)
- <br>
+ 
    8. <b>The punctuation marks in the tweets:</b> 
  <pre><code><b>
      sns.distplot(real_disaster_punctuation_marks,ax=ax1,color='blue')
      sns.distplot(fake_disaster_punctuation_marks,ax=ax2,color='green')
 </b></code></pre>
  ![Punctuation Marks](../images/punctuation_marks.png)
- <br>
+ 
    9. <b>Word Cloud for the real and fake disaster tweets:</b> 
  <pre><code><b>
      tweet_wordcloud(train_df[train_df["target"]==1], title="Train Data Tweets of Real Disaster")
@@ -132,9 +128,9 @@ The complete code for <i>univariate_barplots</i> is available at <a href="https:
  ![Real tweets](../images/wc1.png) <br>
  ![Fake tweets](../images/wc2.png)
  
- <h2> Mapping the Business problem to a Machine Learning Problem</h2> 
+## Mapping the Business problem to a Machine Learning Problem
 
-<h3> Prepare data for the model</h3>
+### Prepare data for the model
 We load the data from the train.csv and test.csv files.
 <pre><code><b>
 train_df = pd.read_csv("train.csv")
@@ -164,21 +160,20 @@ test_df = pd.read_csv("test.csv")
   </b></code></pre>
 
  
-<h2> How to use BERT for text classification. Lets look into the steps one by one:</h2>
-<h3> We will use the official tokenization script created by the Google team.</h3>
+## How to use BERT for text classification. Lets look into the steps one by one:
+### We will use the official tokenization script created by the Google team.
 <pre>
 !wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py </pre>
 
 The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
 
-<h3> Let us load BERT from the Tensorflow Hub:</h3>
+### Let us load BERT from the Tensorflow Hub:
 <pre><code><b>
     module_url = "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"
     bert_layer = hub.KerasLayer(module_url, trainable=True)
 </b></code></pre>
 
-
-<h3> Next, we prepare the tokenizer using the tf-hub model:</h3>
+### Next, we prepare the tokenizer using the tf-hub model:
 In order to pre-process the input and feed it to BERT model, we need to use a tokenizer.
 <pre><code><b>
     # Load tokenizer from the bert layer
@@ -188,7 +183,7 @@ In order to pre-process the input and feed it to BERT model, we need to use a to
   </b></code></pre>
 We next build a custom layer using Keras, integrating BERT from tf-hub.
 
-<h3> Encode the text into tokens, masks and segments:</h3>
+### Encode the text into tokens, masks and segments:
 BERT requires pre-processed inputs. It supports the tokens signature, which assumes pre-processed inputs: input_ids, input_mask, and segment_ids. To achieve this, we encode the data using the tokenizer built in the previous step. 
 The deails of the method <u>bert_encode</u> will be discussed later.
 <pre><code><b>
@@ -196,7 +191,7 @@ The deails of the method <u>bert_encode</u> will be discussed later.
     train_labels = train_df.target.values
   </b></code></pre>
   
-<h3> Build the model and train it:</h3>
+### Build the model and train it:
 <pre><code><b>
     model_tweet_BERT = build_model(bert_layer, max_len=160)
     checkpoint = ModelCheckpoint('model_tweet.h5', monitor='val_loss', save_best_only=True)    
@@ -210,7 +205,7 @@ The deails of the method <u>bert_encode</u> will be discussed later.
     )
   </b></code></pre>
   
-<h3> Lets check the layers of our model. We will build the model using KERAS layer on top of the BERT layer.</h3>
+### Lets check the layers of our model. We will build the model using KERAS layer on top of the BERT layer.
 This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
  <pre><code><b>
 def build_model(bert_layer, max_len=512):
@@ -226,7 +221,7 @@ def build_model(bert_layer, max_len=512):
     return model
     </b></code></pre>  
  
-<h3> Lets look into the bert_encode method which we are using to encode the text data for feeding it to the BERT layer.</h3>
+### Lets look into the bert_encode method which we are using to encode the text data for feeding it to the BERT layer.
  The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
  We first tokenize the sentence using the tokenizer created from vocab.txt . We add [CLS] to start of sentence and [SEP] to the end of the sentence. Finally, we pad the sentence with 0. As we are dealing with one sentence per example, we set segment_id to be 0 and further we set mask to 1 for all tokens.We set this mask to 0 beyond the number of tokens.
  <pre><code><b>
@@ -249,7 +244,7 @@ def bert_encode(texts, tokenizer, max_len=512):
     return np.array(all_tokens), np.array(all_masks), np.array(all_segments)
     </b></code></pre>
      
-<h3> Last but not the least, lets not forget the Test data and predict method:</h3>
+### Last but not the least, lets not forget the Test data and predict method:
 <pre><code><b>
     # Encode the text into tokens, masks and segments
     test_input = bert_encode(test_df.clean_text.values, tokenizer, max_len=160)
@@ -260,7 +255,7 @@ def bert_encode(texts, tokenizer, max_len=512):
     y_pred = model_tweet_BERT.predict(test_input)
   </b></code></pre>
 
-<h2> Model performance:</h2>
+## Model performance:
 The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
 <pre><code><b>
     print(bert_history.history["accuracy"])
@@ -280,20 +275,20 @@ def plot_graphs(history, metric):
     
   </b></code></pre></p>
   
- <h3>Kaggle Submission</h3>
+ ### Kaggle Submission
  
 On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further    improved by the suggestions listed in the <i>Future Work</i> section of this blog.
 ![Kaggle Submission](../images/kaggle_sub2.png)
  
  
- <h3>Future work</h3>
-  1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.<br>
+ ### Future work
+  1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.
   2. Instead of fine tuning the BERT module, we can try to train only the top two or top four layers and check out result.
 
- <h2>References</h2>
+ ## References
  
- 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)<br>
- 2. https://github.com/google-research/bert<br>
- 3. http://jalammar.github.io/illustrated-bert/<br>
- 4. https://github.com/huggingface/transformers<br>
+ 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
+ 2. https://github.com/google-research/bert
+ 3. http://jalammar.github.io/illustrated-bert/
+ 4. https://github.com/huggingface/transformers
  
