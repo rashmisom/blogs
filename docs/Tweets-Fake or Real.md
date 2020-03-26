@@ -49,23 +49,27 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 
 <h2> The features involved are</h2>
 
-1. id - a unique identifier for each tweet 
-2. text - the text of the tweet 
-3. location - the location the tweet was sent from (may be blank) 
-4. keyword - a particular keyword from the tweet (may be blank) 
-5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
+1. id - a unique identifier for each tweet
 
+2. text - the text of the tweet
+
+3. location - the location the tweet was sent from (may be blank)
+
+4. keyword - a particular keyword from the tweet (may be blank)
+
+5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
 
 <h2> EDA (Exploratory Data Analysis)</h2>
 
 Let us analyse the data a bit.
+
    1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
  
    ![Target Distribution](../images/target_distribution.png)
-
+   
    2. <b> Checking for the TOP 'keywords'
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
@@ -286,4 +290,10 @@ def plot_graphs(history, metric):
   
   The performance of the model can be further improved by fine tuning the hyper parameters of the model.
 
+ <h3>References</h3>
+ 
+ 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/){:target="_blank"}.
+ 2. https://github.com/google-research/bert
+ 3. http://jalammar.github.io/illustrated-bert/
+ 4. https://github.com/huggingface/transformers
  
