@@ -280,10 +280,12 @@ def plot_graphs(history, metric):
     plt.legend([metric, 'val_'+metric])
     plt.show()
     
-  </b></code></pre>
+  </b></code></pre></p>
   
  <h3>Kaggle Submission</h3>
-![Target Distribution](../images/target_distribution.png)
+On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further    improved by the suggestions listed in the "Future Work" section of this blog.<br>
+![Kaggle Submission](../images/num_of_words.png)
+ 
  
  <h3>Future work</h3>
   1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.<br>
