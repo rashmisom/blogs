@@ -284,7 +284,7 @@ def plot_graphs(history, metric):
   
  <h3>Kaggle Submission</h3>
  On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further    improved by the suggestions listed in the "Future Work" section of this blog.<br>
- ![Kaggle Submission](../images/kaggle_sub2.png)
+ ![Kaggle Submission](../images/num_of_words.png)
  
  <h3>Future work</h3>
   1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.<br>
@@ -292,8 +292,8 @@ def plot_graphs(history, metric):
 
  <h2>References</h2>
  
- 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
- 2. https://github.com/google-research/bert
- 3. http://jalammar.github.io/illustrated-bert/
- 4. https://github.com/huggingface/transformers
+ 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)<br>
+ 2. https://github.com/google-research/bert<br>
+ 3. http://jalammar.github.io/illustrated-bert/<br>
+ 4. https://github.com/huggingface/transformers<br>
  
