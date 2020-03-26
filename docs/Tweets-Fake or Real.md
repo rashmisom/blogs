@@ -282,15 +282,15 @@ def plot_graphs(history, metric):
     
   </b></code></pre>
   
- <h3>Kaggle Submission<h3>
+ <h3>Kaggle Submission</h3>
  On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further improved by the suggestions listed in the "Future Work" section of this blog.
  ![Kaggle Submission](../images/kaggle_sub2.png)
  
  <h3>Future work</h3>
-  1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.
+  1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.<br>
   2. Instead of fine tuning the BERT module, we can try to train only the top two or top four layers and check out result.
 
- <h3>References</h3>
+ <h2>References</h2>
  
  1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
  2. https://github.com/google-research/bert
