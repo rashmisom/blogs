@@ -285,7 +285,7 @@ def plot_graphs(history, metric):
  <h3>Kaggle Submission</h3>
  
 On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further    improved by the suggestions listed in the <i>Future Work</i> section of this blog.
-![Kaggle Submission](../images/num_of_words.png)
+![Kaggle Submission](../images/kaggle_sub2.png)
  
  
  <h3>Future work</h3>
