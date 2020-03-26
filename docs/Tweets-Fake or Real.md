@@ -9,7 +9,7 @@ repository_url: https://github.com/rashmisom/Tweets-NLP-sentiment
 Twitter has become an important communication channel in times of emergency. The ubiquitousness of smartphones enables people to announce an emergency they’re observing in real-time. Because of this, more agencies are interested in programatically monitoring Twitter (i.e. disaster relief organizations and news agencies).
 In this competition, you’re challenged to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t.
 
-In this blog, let us discuss one approach to solve this problem statement.<br>
+In this blog, let us discuss one approach to solve this problem statement.<br/>
  
 
 ---
@@ -19,53 +19,53 @@ In this blog, let us discuss one approach to solve this problem statement.<br>
 
 The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
 <p>Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
- <br>
+ <br/>
 <p><u>Context-free models </u>such as <b>word2vec</b> or  <b>GloVe</b> generate a single <u>"word embedding"</u> representation for each word in the vocabulary, so <i>bank</i> would have the same representation in <i>bank deposit</i>  and  <i>river bank</i> . 
- <br><u>Contextual models </u>instead generate a representation of each word that is based on the other words in the sentence.
-<p><br><b>BERT, or Bidirectional Encoder Representations from Transformers</b>, is a new method of pre-training language representations which obtains state-of-the-art results on a wide array of Natural Language Processing (NLP) tasks.
- <br>
+ <br/><u>Contextual models </u>instead generate a representation of each word that is based on the other words in the sentence.
+<p><br/><b>BERT, or Bidirectional Encoder Representations from Transformers</b>, is a new method of pre-training language representations which obtains state-of-the-art results on a wide array of Natural Language Processing (NLP) tasks.
+ <br/>
 <b>BERT</b> was built upon recent work in pre-training contextual representations — including <b>Semi-supervised Sequence Learning, Generative Pre-Training, ELMo, and ULMFit </b>— but crucially these models are all unidirectional or shallowly bidirectional. This means that each word is only contextualized using the words to its left (or right). 
 <p>For example, in the sentence -->
- <i>I made a bank deposit </i> <br>the unidirectional representation of <br><i>bank</i> is only based on <i>I made a </i> <br>but not deposit.
+ <i>I made a bank deposit </i> <br/>the unidirectional representation of <br/><i>bank</i> is only based on <i>I made a </i> <br/>but not deposit.
  <p>Some previous work does combine the representations from separate left-context and right-context models, but only in a "shallow" manner. 
-<p>BERT represents <i> "bank" </i> using both its left and right context — <br>I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
-<br>
+<p>BERT represents <i> "bank" </i> using both its left and right context — <br/>I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
+<br/>
 For more details on the in depth working of BERT, kindly refer <a> https://github.com/google-research/bert </a>
   
 We have a small training dataset and few features. 
-<br>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
+<br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
 
 <h2> Data Format</h2>
 
 We have access to a dataset of 10,000 tweets that were hand classified.
-We are predicting whether a given tweet is about a real disaster or not.<br>
-If so, predict a 1<br>
-If not, predict a 0<br>
+We are predicting whether a given tweet is about a real disaster or not.<br/>
+If so, predict a 1<br/>
+If not, predict a 0<br/>
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
 
 <h2> The features involved are</h2>
 
-1. id - a unique identifier for each tweet<br>
+1. id - a unique identifier for each tweet<br/>
 
-2. text - the text of the tweet<br>
+2. text - the text of the tweet<br/>
 
-3. location - the location the tweet was sent from (may be blank)<br>
+3. location - the location the tweet was sent from (may be blank)<br/>
 
-4. keyword - a particular keyword from the tweet (may be blank)<br>
+4. keyword - a particular keyword from the tweet (may be blank)<br/>
 
-5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)<br>
+5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)<br/>
 
 <h2> EDA (Exploratory Data Analysis)</h2>
 
-Let us analyse the data a bit.<br>
+Let us analyse the data a bit.<br/>
 
  1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
-      </b></code></pre>
+      </b></code></pre><br />
  ![Target Distribution](../images/target_distribution.png)
-  <br>
+  
  2. <b> Checking for the TOP 'keywords'</b>
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
