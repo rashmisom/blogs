@@ -35,6 +35,8 @@ For more details on the in depth working of BERT, kindly refer <a> https://githu
 We have a small training dataset and few features. 
 <br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
 
+---
+
 ## Data Format
 
 We have access to a dataset of 10,000 tweets that were hand classified.
