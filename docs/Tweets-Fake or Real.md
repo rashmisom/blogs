@@ -58,14 +58,16 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 ---
 
 <h2> EDA (Exploratory Data Analysis)</h2>
+
 Let us analyse the data a bit.
 
-1. <b>Lets check on the 'target', the dependent variable distribution:</b> 
+1. <b>Lets check on the 'target', the dependent variable distribution:</b>
+
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
-    and we get 
-     ![Target Distribution](../images/target_distribution.png)
+ 
+ ![Target Distribution](../images/target_distribution.png)
 
 2. <b> Checking for the TOP 'keywords'
    <pre><code><b>
