@@ -34,8 +34,6 @@ For more details on the in depth working of BERT, kindly refer <a> https://githu
   
 We have a small training dataset and few features. As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence[text data] that we can use for classification. 
 
----
-
 <h2> Data Format</h2>
 
 We have access to a dataset of 10,000 tweets that were hand classified.
@@ -44,8 +42,6 @@ If so, predict a 1<br>
 If not, predict a 0
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
-
----
 
 <h2> The features involved are</h2>
 
@@ -292,7 +288,7 @@ def plot_graphs(history, metric):
 
  <h3>References</h3>
  
- 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/){:target="_blank"}.
+ 1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
  2. https://github.com/google-research/bert
  3. http://jalammar.github.io/illustrated-bert/
  4. https://github.com/huggingface/transformers
