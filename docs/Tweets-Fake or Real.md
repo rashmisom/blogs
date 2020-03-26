@@ -58,7 +58,7 @@ Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for
 ---
 
 <h2> EDA (Exploratory Data Analysis)</h2>
-<h4>Lets us analyse the data a bit.</h4>
+<h3>Lets us analyse the data a bit.</h3>
 
 1. <b>Lets check on the 'target', the dependent variable distribution:</b> 
       <pre><code><b>
