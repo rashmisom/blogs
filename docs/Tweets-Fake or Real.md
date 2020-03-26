@@ -18,22 +18,7 @@ In this blog, let us discuss one approach to solve this problem statement.<br/>
 ## Our Approach
 
 The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
-<p>Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
- <br/>
-<p><u>Context-free models </u>such as <b>word2vec</b> or  <b>GloVe</b> generate a single <u>"word embedding"</u> representation for each word in the vocabulary, so <i>bank</i> would have the same representation in <i>bank deposit</i>  and  <i>river bank</i> . 
- <br/><u>Contextual models </u>instead generate a representation of each word that is based on the other words in the sentence.
-<p><br/><b>BERT, or Bidirectional Encoder Representations from Transformers</b>, is a new method of pre-training language representations which obtains state-of-the-art results on a wide array of Natural Language Processing (NLP) tasks.
- <br/>
-<b>BERT</b> was built upon recent work in pre-training contextual representations — including <b>Semi-supervised Sequence Learning, Generative Pre-Training, ELMo, and ULMFit </b>— but crucially these models are all unidirectional or shallowly bidirectional. This means that each word is only contextualized using the words to its left (or right). 
-<p>For example, in the sentence -->
- <i>I made a bank deposit </i> <br/>the unidirectional representation of <br/><i>bank</i> is only based on <i>I made a </i> <br/>but not deposit.
- <p>Some previous work does combine the representations from separate left-context and right-context models, but only in a "shallow" manner. 
-<p>BERT represents <i> "bank" </i> using both its left and right context — <br/>I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
-<br/>
-For more details on the in depth working of BERT, kindly refer <a> https://github.com/google-research/bert </a>
-  
-We have a small training dataset and few features. 
-<br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
+
 
 ---
 
