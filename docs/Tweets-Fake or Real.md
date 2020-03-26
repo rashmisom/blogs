@@ -64,9 +64,8 @@ Let us analyse the data a bit.<br>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
       </b></code></pre>
- <br>
-   ![Target Distribution](../images/target_distribution.png)
-   <br>
+  ![Target Distribution](../images/target_distribution.png)
+  
    2. <b> Checking for the TOP 'keywords'</b>
    <pre><code><b>
       keyword_value_count = train_df["keyword"].value_counts()
