@@ -70,9 +70,9 @@ copy_images(original_sequences_path,image_dir_path,dest_path,1)
  
  ### Crop the face
  We must detect if the face has been manipulated, so we need to concentrate on the face portion of the image.<br/>
- To achieve this we use one of the face tracking algorithms implemented in **dlib** which is python library, you can download it from here.
+ To achieve this we use one of the face tracking algorithms implemented in **dlib** which is python library, you can download using:<br/> `pip install dlib`
 <pre><code><b> 
-# instantiating face detector class from dlib library 
+# instantiating face detector from dlib library 
 face_detector = dlib.get_frontal_face_detector()
 faces = face_detector(image, 1)
 </b></code></pre>
