@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Learning to Detect Manipulated Facial Images
+title: Face Forensic
 description: Learning to Detect Manipulated Facial Images
 repository_url: https://github.com/rashmisom/Face-Forensic
 ---
@@ -10,7 +10,7 @@ repository_url: https://github.com/rashmisom/Face-Forensic
 
 The rapid progress in synthetic image generation and manipulation has now come to a point where it raises significant concerns on the implication on the society. At best, this leads to a loss of trust in digital content, but it might even cause further harm by spreading false information and the creation of fake news. 
 In this blog, we will build a machine learning model that learns to detect manipulated facial images. We have access to a dataset of fake and real videos. We have to train a model to predict whether the given video(or image sequence) is fake or real.
-For more details, kindly go through this [link](https://www.groundai.com/project/faceforensics-learning-to-detect-manipulated-fa cial-images/1)
+For more details, kindly go through this [link](https://www.groundai.com/project/faceforensics-learning-to-detect-manipulated-facial-images/1)
 
 In this blog, let us discuss one approach to solve this problem statement.<br/>
  
@@ -26,9 +26,9 @@ Let us summarize the steps to solve the problem at hand:
 2. For our dataset, we chose two computer graphics-based approaches  (**Face2Face** and **FaceSwap** ) and a deep-learning-based approach  (**Deepfakes** ). These will give us manipulated videos.  
 3. We will also download the original youtube videos from there.  
 4. We will use the following script to download all images or videos. 
-      'download-FaceForensics.py ' 
+      `download-FaceForensics.py`
 5. We will have to extract the sequence images from these videos. We will  use the following script provided by FaceForensics for extracting the  frames.  
-      'python extracted_compressed_videos.py <output path> -d <"all" or single dataset via "Face2Face" or "original"> -c c0 '
+      `python extracted_compressed_videos.py <output path> -d <"all" or single dataset via "Face2Face" or "original"> -c c0`
 6. We will process all extracted images with a standard Dlib face detector to  get the face bounding boxes for further processing.  
 7. We split the dataset into a fixed training, validation and test set.  
 8. We build a CNN model to extract the image features and learn the weights to make the prediction of the manipulated videos.  
@@ -37,12 +37,24 @@ Let us summarize the steps to solve the problem at hand:
 
 ---
 
-## Data Format
+## Data Collection
 
-We have access to a dataset of 10,000 tweets that were hand classified.
-We are predicting whether a given tweet is about a real disaster or not.<br/>
-If so, predict a 1<br/>
-If not, predict a 0<br/>
+We will consider around 150 _fake_ and 151 _Original_ vedios for our model.
+1. We will download 50 fake videos of each type.
+    `python faceforensics_download_v4.py data\fake -d Deepfakes -c c23 -t videos -n 50
+    python faceforensics_download_v4.py data\fake -d Face2Face -c c23 -t videos -n 50
+    python faceforensics_download_v4.py data\fake -d FaceSwap -c c23 -t videos -n 50`
+
+2. We will download 151 original videos.    
+    python faceforensics_download_v4.py data\original -d youtube -c c23 -t videos -n 151
+
+3. We will extract the image sequence from these videos using the following commands.
+    python extracted_compressed_videos.py --data_path data\fake -d Deepfakes -c c23
+    python extracted_compressed_videos.py --data_path data\fake -d Face2Face -c c23
+    python extracted_compressed_videos.py --data_path data\fake -d FaceSwap -c c23
+    python extracted_compressed_videos.py --data_path data\original -d original -c c23
+
+4. We will go through these image sequences and collect 50 image sequence for EACH video and put all these in the folder       "data_set". These images will be further processed and split into train, cv and test data.
 
 Click [here](https://www.kaggle.com/c/nlp-getting-started) for more details.
 
