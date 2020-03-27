@@ -32,7 +32,7 @@ Some previous work does combine the representations from separate left-context a
 
 BERT represents _bank_ using both its left and right context — <br/>I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
 
-For more details on the in depth working of BERT, kindly click [here](https://github.com/google-research/bert/){:target="_blank"}
+For more details on the in depth working of BERT, kindly click [here](https://github.com/google-research/bert/)
   
 We have a small training dataset and few features. 
 <br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
@@ -47,7 +47,7 @@ We are predicting whether a given tweet is about a real disaster or not.<br/>
 If so, predict a 1<br/>
 If not, predict a 0<br/>
 
-Click [here](https://www.kaggle.com/c/nlp-getting-started){:target="_blank"} for more details.
+Click [here](https://www.kaggle.com/c/nlp-getting-started) for more details.
 
 ## The features involved are
 
@@ -142,7 +142,7 @@ train_df = pd.read_csv("train.csv")
 test_df = pd.read_csv("test.csv")
   </b></code></pre>
  
- <p> Once we have the data loaded, we must preprocess the data before submitting it to the ML model for training.
+ Once we have the data loaded, we must preprocess the data before submitting it to the ML model for training.
  Lets look into abstract of the data preprocessing and the details of the same is available [here](https://github.com/rashmisom/Tweets-NLP-sentiment) .
 
 <pre><code><b>   
@@ -268,7 +268,7 @@ The model is a binary classification model and we can check the accuracy of the 
     plot_graphs(bert_history,"accuracy")
  </b></code></pre>
  
-<p>How can we forget the utility method
+<br/>How can we forget the utility method
 <pre><code><b>
 def plot_graphs(history, metric):
     plt.plot(history.history[metric])
