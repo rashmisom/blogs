@@ -1,10 +1,10 @@
-
 ---
 layout: default
-title: Real or Not? NLP with Disaster Tweets
-description: Real or Not? NLP with Disaster Tweets
-repository_url: https://github.com/rashmisom/Tweets-NLP-sentiment
+title: FaceForensics++: Learning to Detect Manipulated Facial Images
+description: FaceForensics++: Learning to Detect Manipulated Facial Images
+repository_url: https://github.com/rashmisom/Face-Forensic
 ---
+
 ## Problem Statement
 
 
