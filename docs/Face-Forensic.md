@@ -28,7 +28,7 @@ Let us summarize the steps to solve the problem at hand:
 4. We will use the following script to download all images or videos. <br/>
       `download-FaceForensics.py`
 5. We will have to extract the sequence images from these videos. We will  use the following script provided by FaceForensics for extracting the  frames.<br/>  
-    `python extracted_compressed_videos.py <output path> -d <"all" or single dataset via "Face2Face" or "original"> -c c0`
+ `python extracted_compressed_videos.py <output path> -d <"all" or single dataset via "Face2Face" or "original"> -c c0`
 6. We will process all extracted images with a standard Dlib face detector to  get the face bounding boxes for further processing.  
 7. We split the dataset into a fixed training, validation and test set.  
 8. We build a CNN model to extract the image features and learn the weights to make the prediction of the manipulated videos.  
@@ -55,7 +55,7 @@ We will consider around 150 _fake_ and 151 _Original_ vedios for our model.
     `python extracted_compressed_videos.py --data_path data\original -d original -c c23`
 
 4. We will go through these image sequences and collect 50 image sequence for EACH video and put all these in the folder       "data_set". These images will be further processed and split into <br/>
- train, cv and test data.
+ _train, cv and test data_.
  
 
 ## The features involved are
