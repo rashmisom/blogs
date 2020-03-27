@@ -16,8 +16,23 @@ In this blog, let us discuss one approach to solve this problem statement.<br/>
 
  
 ## Our Approach
+The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t.
+<p>Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
+ <br/>
+<p><u>Context-free models </u>such as **word2vec** or  **GloVe** generate a single <u>word embedding</u> representation for each word in the vocabulary, so _bank_ would have the same representation in <i>bank deposit</i>  and  <i>river bank</i> . 
+ <br/><u>Contextual models </u>instead generate a representation of each word that is based on the other words in the sentence.
+<p><br/>**BERT, or Bidirectional Encoder Representations from Transformers**, is a new method of pre-training language representations which obtains state-of-the-art results on a wide array of Natural Language Processing (NLP) tasks.
+ <br/>
+**BERT** was built upon recent work in pre-training contextual representations — including **Semi-supervised Sequence Learning, Generative Pre-Training, ELMo, and ULMFit**— but crucially these models are all unidirectional or shallowly bidirectional. This means that each word is only contextualized using the words to its left (or right). 
+<p>For example, in the sentence<br/>
+ _I made a bank deposit_ <br/>the unidirectional representation of <br/>_bank_ is only based on _I made a_ <br/>but not deposit.
+ <p>Some previous work does combine the representations from separate left-context and right-context models, but only in a shallow manner. 
+<p>BERT represents _bank_ using both its left and right context — <br/>I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
 
-The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
+For more details on the in depth working of BERT, kindly click [here](https://github.com/google-research/bert/){:target="_blank"}
+  
+We have a small training dataset and few features. 
+<br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
 
 
 ---
