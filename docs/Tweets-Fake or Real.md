@@ -18,7 +18,22 @@ In this blog, let us discuss one approach to solve this problem statement.<br/>
 ## Our Approach
 
 The problem in hand is to build a machine learning model that predicts which Tweets are about real disasters and which one’s aren’t. 
-
+<p>Any machine learning model has to learn the weights for the features on which the model is trained. For any NLP task like this one, we have different approaches to convert the textual data into the format in which the machine can read it and learn.
+ <br/>
+<p><u>Context-free models </u>such as <b>word2vec</b> or  <b>GloVe</b> generate a single <u>"word embedding"</u> representation for each word in the vocabulary, so <i>bank</i> would have the same representation in <i>bank deposit</i>  and  <i>river bank</i> . 
+ <br/><u>Contextual models </u>instead generate a representation of each word that is based on the other words in the sentence.
+<p><br/><b>BERT, or Bidirectional Encoder Representations from Transformers</b>, is a new method of pre-training language representations which obtains state-of-the-art results on a wide array of Natural Language Processing (NLP) tasks.
+ <br/>
+<b>BERT</b> was built upon recent work in pre-training contextual representations — including <b>Semi-supervised Sequence Learning, Generative Pre-Training, ELMo, and ULMFit </b>— but crucially these models are all unidirectional or shallowly bidirectional. This means that each word is only contextualized using the words to its left (or right). 
+<p>For example, in the sentence -->
+ <i>I made a bank deposit </i> <br/>the unidirectional representation of <br/><i>bank</i> is only based on <i>I made a </i> <br/>but not deposit.
+ <p>Some previous work does combine the representations from separate left-context and right-context models, but only in a "shallow" manner. 
+<p>BERT represents <i> "bank" </i> using both its left and right context — <br/>I made a ... deposit — starting from the very bottom of a deep neural network, so it is deeply bidirectional.
+<br/>
+For more details on the in depth working of BERT, kindly refer [here](https://github.com/google-research/bert)
+  
+We have a small training dataset and few features. 
+<br/>As the training  dataset is small, it is better to use a pre trained BERT model to get the  embedding for the sentence, that we can use for classification. 
 
 ---
 
@@ -57,7 +72,7 @@ Let us analyse the data a bit.
  ![Top Keywords](../images/top_keywords.png)
    
 3. <b>Distribution of 'keywords' for Real and Fake tweets:</b> 
-The complete code for <i>univariate_barplots</i> is available at <a href="https://github.com/rashmisom/Tweets-NLP-sentiment"> here </a>
+The complete code for <i>univariate_barplots</i> is available [here](https://github.com/rashmisom/Tweets-NLP-sentiment)
  <pre><code><b>
       univariate_barplots(train_df,'keyword','target',1,21) 
  </b></code></pre>
@@ -125,7 +140,7 @@ test_df = pd.read_csv("test.csv")
   </b></code></pre>
  
  <p> Once we have the data loaded, we must preprocess the data before submitting it to the ML model for training.
- Lets look into abstract of the data preprocessing and the details of the same is available on the <a>https://github.com/rashmisom/Tweets-NLP-sentiment </a>.
+ Lets look into abstract of the data preprocessing and the details of the same is available [here](https://github.com/rashmisom/Tweets-NLP-sentiment) .
 
 <pre><code><b>   
         ## decontract the text,remove html etc
@@ -275,7 +290,7 @@ On submitted the predicted values for the test dataset, the kaggle score came as
  ## References
  
  1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
- 2. https://github.com/google-research/bert
- 3. http://jalammar.github.io/illustrated-bert/
- 4. https://github.com/huggingface/transformers
+ 2. [BERT](https://github.com/google-research/bert)
+ 3. [Illustrated BERT](http://jalammar.github.io/illustrated-bert/)
+ 4. [HuggingFace](https://github.com/huggingface/transformers)
  
