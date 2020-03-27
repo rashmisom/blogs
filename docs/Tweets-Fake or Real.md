@@ -64,7 +64,7 @@ Let us analyse the data a bit.
  1. <b>Lets check on the 'target', the dependent variable distribution:</b>
       <pre><code><b>
         sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
-      </b></code></pre><br />
+      </b></code></pre>
  ![Target Distribution](../images/target_distribution.png)
   
  2. <b> Checking for the TOP 'keywords'</b>
@@ -278,7 +278,7 @@ def plot_graphs(history, metric):
     plt.legend([metric, 'val_'+metric])
     plt.show()
     
-  </b></code></pre></p>
+  </b></code></pre>
   
  ### Kaggle Submission
  
