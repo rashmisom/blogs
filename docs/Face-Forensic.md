@@ -54,17 +54,29 @@ We will consider around 150 _fake_ and 151 _Original_ vedios for our model.
     `python extracted_compressed_videos.py --data_path data\fake -d FaceSwap -c c23`<br/>
     `python extracted_compressed_videos.py --data_path data\original -d original -c c23`
 
-4. We will go through these image sequences and collect 50 image sequence for EACH video and put all these in the folder       "data_set". These images will be further processed and split into <br/>
- _train, cv and test data_.
  
 
-## The features involved are
+## The Image Preparation:
+The images need to be processed, before feeding them to the model.
 
-1. id - a unique identifier for each tweet
-2. text - the text of the tweet
-3. location - the location the tweet was sent from (may be blank)
-4. keyword - a particular keyword from the tweet (may be blank)
-5. target - in train.csv only, this denotes whether a tweet is about a real disaster (1) or not (0)
+### Copy 50 image sequence for EACH video
+We will go through these image sequences and collect 50 image sequence for EACH video and put all these in the folder <destination-folder>, say the folder name is _data_set_ .These images will be further processed and split into <br/>
+ _train, cv and test data_.
+<pre><code><b>
+## label value = 0 for fake and 1 for real
+copy_images(manipulated_sequences_path,image_dir_path,dest_path,0)
+copy_images(original_sequences_path,image_dir_path,dest_path,1)
+</b></code></pre>
+ 
+ ### Crop the face
+ We must detect if the face has been manipulated, so we need to concentrate on the face portion of the image.<br/>
+ To achieve this we use one of the face tracking algorithms implemented in **dlib** which is python library, you can download it from here.
+<pre><code><b> 
+# instantiating face detector class from dlib library 
+face_detector = dlib.get_frontal_face_detector()
+faces = face_detector(image, 1)
+</b></code></pre>
+
 
 ## EDA (Exploratory Data Analysis)
 
