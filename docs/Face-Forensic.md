@@ -1,8 +1,8 @@
 ---
 layout: default
-title: Stack Overflow Tag Prediction
-description: Lets suggest the tags
-repository_url: https://github.com/rashmisom/tag-prediction
+title: Learning to Detect Manipulated Facial Images
+description: Learning to Detect Manipulated Facial Images
+repository_url: https://github.com/rashmisom/Face-Forensic
 ---
 
 ## Problem Statement
