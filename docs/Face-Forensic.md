@@ -1,8 +1,8 @@
 ---
 layout: default
-title: FaceForensics++: Learning to Detect Manipulated Facial Images
-description: FaceForensics++: Learning to Detect Manipulated Facial Images
-repository_url: https://github.com/rashmisom/Face-Forensic
+title: Stack Overflow Tag Prediction
+description: Lets suggest the tags
+repository_url: https://github.com/rashmisom/tag-prediction
 ---
 
 ## Problem Statement
