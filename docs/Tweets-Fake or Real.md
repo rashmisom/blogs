@@ -276,21 +276,20 @@ def plot_graphs(history, metric):
     plt.xlabel("Epochs")
     plt.ylabel(metric)
     plt.legend([metric, 'val_'+metric])
-    plt.show()
-    
+    plt.show()    
   </b></code></pre>
   
- ### Kaggle Submission
+### Kaggle Submission
  
 On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further    improved by the suggestions listed in the <i>Future Work</i> section of this blog.
 ![Kaggle Submission](../images/kaggle_sub2.png)
  
  
- ### Future work
+### Future work
   1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.
   2. Instead of fine tuning the BERT module, we can try to train only the top two or top four layers and check out result.
 
- ## References
+## References
  
  1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
  2. [BERT](https://github.com/google-research/bert)
