@@ -165,52 +165,42 @@ history_face_forensic = model_face_forensic.fit(x_train, np.array(y_train),valid
     plot_graphs(history_face_forensic,'loss')  
   </b></code></pre>
  
- ### Lets evaluate our trained model:
- # evaluate the model
+ ### Lets evaluate the performance of our trained model on the Test data:
  <pre><code><b>
     scores = model_face_forensic.evaluate(x_test,np.array(y_test),verbose=0)
     print("%s: %.2f%%" % (model_face_forensic.metrics_names[1], scores[1]*100))
  </b></code></pre>
    
-### Last but not the least, lets not forget the Test data and predict method:
+### Last but not the least, lets not forget the predict method:
 <pre><code><b>
    #For testing any new video
-   output_file_name = test_full_image_network(video_path='033_097.mp4', num_of_frames=10)
+   output_file_name = test_full_image_network(video_path='033_097.mp4', num_of_frames=100)
+</b></code></pre>
+<br/>
+**test_full_image_network** this method would take in any vedio, extract _num_of_frames_ frames from the vedio and follow the
+image processing steps as done before training our model. These steps are face detection, image cropping, image resizing and then feeding the images to `preprocess_input`.
+<br/> Once the images are processed we load the model which was saved earlier and call the predict method.
+<pre><code><b>
+   prediction = model.predict(cropped_image)[0]
 </b></code></pre>
 
-## Model performance:
-The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
+According to the prediction, the images are saved into a new output vedio which shows the vedio with a boxed face labelled as "fake" or "Real" with the confidence level of prediction.
+
+The output vedio can be viewed using HTML
 <pre><code><b>
-    print(bert_history.history["accuracy"])
-    print(bert_history.history["val_accuracy"])    
-    plot_graphs(bert_history,"accuracy")
- </b></code></pre>
- 
-<br/>How can we forget the utility method
-<pre><code><b>
-def plot_graphs(history, metric):
-    plt.plot(history.history[metric])
-    plt.plot(history.history['val_'+metric], '')
-    plt.xlabel("Epochs")
-    plt.ylabel(metric)
-    plt.legend([metric, 'val_'+metric])
-    plt.show()    
-  </b></code></pre>
-  
-### Kaggle Submission
- 
-On submitted the predicted values for the test dataset, the kaggle score came as shown in the image below and this can be further    improved by the suggestions listed in the <i>Future Work</i> section of this blog.
-![Kaggle Submission](../images/kaggle_sub2.png)
- 
- 
+from IPython.display import HTML
+ HTML('<iframe width="560" height="315" src="{0}" frameborder="0" allowfullscreen></iframe>'.format(output_file_name))
+</b></code></pre>
+
+
 ### Future work
   1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.
-  2. Instead of fine tuning the BERT module, we can try to train only the top two or top four layers and check out result.
+  2. We can try different CNN models to check the performance.
 
 ## References
  
  1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
- 2. [BERT](https://github.com/google-research/bert)
- 3. [Illustrated BERT](http://jalammar.github.io/illustrated-bert/)
- 4. [HuggingFace](https://github.com/huggingface/transformers)
+ 2. https://www.groundai.com/project/faceforensics-learning-to-detect-manipulated-fa cial-images/1
+ 3. https://github.com/ondyari/FaceForensics
+  
  
