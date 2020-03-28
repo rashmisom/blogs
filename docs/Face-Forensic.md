@@ -191,15 +191,15 @@ image processing steps as done before training our model. These steps are face d
 According to the prediction, the images are saved into a new output vedio which shows the vedio with a boxed face labelled as "fake" or "Real" with the confidence level of prediction.
 
 The output vedio can be viewed using HTML
-<pre><code><b>
-from IPython.display import HTML
- HTML('<iframe width="560" height="315" src="{0}" frameborder="0" allowfullscreen></iframe>'.format(output_file_name))
-</b></code></pre>
+`from IPython.display import HTML`
+`HTML('<iframe width="560" height="315" src="{0}" frameborder="0" allowfullscreen></iframe>'.format(output_file_name))`
+ 
 
 
 ### Future work
   1. The performance of the model can be further improved by fine tuning the hyper parameters of the model.
-  2. We can try different CNN models to check the performance.
+  2. We can try to use different set (varities) of vedios to further finetune our model.
+  3. We can try different CNN models to check the performance.
 
 ## References
  
