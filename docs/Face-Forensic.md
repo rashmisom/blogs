@@ -106,6 +106,8 @@ faces = face_detector(image, 1)
 ## Mapping the Business problem to a Machine Learning Problem
 
 ### Prepare data for the model
+Our problem is a binary classification problem, we will have the label **0 for Real and 1 for Fake** (Deepfakes or Face2face or FaceSwap).
+
 1. Lets split the cropped images into _train , cv and test_ sets.
 <pre><code><b>
     X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.33, shuffle=True, random_state=42)
