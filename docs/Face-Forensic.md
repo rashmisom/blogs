@@ -190,8 +190,8 @@ image processing steps as done before training our model. These steps are face d
 
 According to the prediction, the images are saved into a new output vedio which shows the vedio with a boxed face labelled as "fake" or "Real" with the confidence level of prediction.
 
-The output vedio can be viewed using HTML
-`from IPython.display import HTML`
+The output vedio can be viewed using HTML <br/>
+`from IPython.display import HTML` <br/>
 `HTML('<iframe width="560" height="315" src="{0}" frameborder="0" allowfullscreen></iframe>'.format(output_file_name))`
  
 
