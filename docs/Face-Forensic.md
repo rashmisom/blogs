@@ -123,12 +123,13 @@ on the images. The method is `preprocess_input` and the same can be imported usi
 
  
 ## Our Model
-Xception model, with weights pre-trained on ImageNet.
+We will go with fine-tuning Xception model, with weights pre-trained on ImageNet.
+<br/> We will create the `Xception` model which has been been trained on heavy ImageNet data.
+<br/>
+`Xception_model=Xception(include_top=False, weights='imagenet',input_shape=(299,299,3),pooling ='avg')`<br/>
 
 -**include_top**: whether to include the fully-connected layer at the top of the network. <br/>
-
--**input_shape**: The default input size for this model is 299x299. We are using colored images so the `input_shape` is (299,299,3)  `Xception_model=Xception(include_top=False, weights='imagenet',input_shape=(299,299,3),pooling ='avg')`
-
+-**input_shape**: The default input size for this model is 299x299. We are using colored images so the `input_shape` is (299,299,3)  <br/>
 -**pooling**: 'avg' means that global average pooling will be applied to the output of the last convolutional block, and thus the output of the model will be a 2D tensor.
  
 ### Model architecture:
@@ -149,7 +150,8 @@ history_face_forensic = model_face_forensic.fit(x_train, np.array(y_train),valid
                                               callbacks=[checkpoint,tensorboard_callback], batch_size = 32, verbose=2, epochs=12)
 
 </b></code></pre>
-#### Lets save the trained model:
+
+### Lets save the trained model:
  `model_face_forensic.save("model_face_forensics.hdf5")`
  
 ### Plotting the training and validation accuracy helps to understand the model behaviour over different epochs:
@@ -177,7 +179,7 @@ history_face_forensic = model_face_forensic.fit(x_train, np.array(y_train),valid
    output_file_name = test_full_image_network(video_path='033_097.mp4', num_of_frames=100)
 </b></code></pre>
 <br/>
-**test_full_image_network** this method would take in any vedio, extract _num_of_frames_ frames from the vedio and follow the
+The method `test_full_image_network` would take in any vedio, extract _num_of_frames_ frames from the vedio and follow the
 image processing steps as done before training our model. These steps are face detection, image cropping, image resizing and then feeding the images to `preprocess_input`.
 <br/> Once the images are processed we load the model which was saved earlier and call the predict method.
 <pre><code><b>
@@ -200,7 +202,7 @@ from IPython.display import HTML
 ## References
  
  1. I have done this case study as part of [appliedaicourse](https://www.appliedaicourse.com/)
- 2. https://www.groundai.com/project/faceforensics-learning-to-detect-manipulated-fa cial-images/1
+ 2. https://www.groundai.com/project/faceforensics-learning-to-detect-manipulated-facial-images/1
  3. https://github.com/ondyari/FaceForensics
   
  
