@@ -106,129 +106,77 @@ faces = face_detector(image, 1)
 ## Mapping the Business problem to a Machine Learning Problem
 
 ### Prepare data for the model
-We load the data from the train.csv and test.csv files.
+1. Lets split the cropped images into _train , cv and test_ sets.
 <pre><code><b>
-train_df = pd.read_csv("train.csv")
-test_df = pd.read_csv("test.csv")
-  </b></code></pre>
- 
- Once we have the data loaded, we must preprocess the data before submitting it to the ML model for training.
- Lets look into abstract of the data preprocessing and the details of the same is available [here](https://github.com/rashmisom/Tweets-NLP-sentiment) .
-
-<pre><code><b>   
-        ## decontract the text,remove html etc
-        sent = cleanText(sentance)
-        ## some more data updates
-        sent = sent.replace('\\r', ' ').replace('\\"', ' ').replace('\\n', ' ').replace(",000,000", "m")\
-                           .replace(",000", "k").replace("′", "'").replace("’", "'")\
-                           .replace("won't", "will not").replace("cannot", "can not").replace("can't", "can not")\
-                           .replace("n't", " not").replace("what's", "what is").replace("it's", "it is")\
-                           .replace("'ve", " have").replace("i'm", "i am").replace("'re", " are")\
-                           .replace("he's", "he is").replace("she's", "she is").replace("'s", " own")\
-                           .replace("%", " percent ").replace("₹", " rupee ").replace("$", " dollar ")\
-                           .replace("€", " euro ").replace("'ll", " will")
-        sent = re.sub('[^A-Za-z0-9]+', ' ', sent)
-        ## correct the spellings
-        sent = correct_spellings(sent)
-        ## remove the stopwords
-        sent = ' '.join(e for e in sent.split() if e not in stopwords and e not in punctuations)
-  </b></code></pre>
-
- 
-## How to use BERT for text classification. Lets look into the steps one by one:
-### We will use the official tokenization script created by the Google team.
-<pre>
-!wget --quiet https://raw.githubusercontent.com/tensorflow/models/master/official/nlp/bert/tokenization.py </pre>
-
-The processes of tokenisation involves splitting the input text into list of tokens that are available in the vocabulary. <br>
-
-### Let us load BERT from the Tensorflow Hub:
-<pre><code><b>
-    module_url = "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/1"
-    bert_layer = hub.KerasLayer(module_url, trainable=True)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=0.33, shuffle=True, random_state=42)
+    X_train, X_cv, Y_train, Y_cv = train_test_split(X_train, Y_train, test_size=0.33, random_state=42)
 </b></code></pre>
 
-### Next, we prepare the tokenizer using the tf-hub model:
-In order to pre-process the input and feed it to BERT model, we need to use a tokenizer.
-<pre><code><b>
-    # Load tokenizer from the bert layer
-    vocab_file = bert_layer.resolved_object.vocab_file.asset_path.numpy()
-    do_lower_case = bert_layer.resolved_object.do_lower_case.numpy()
-    tokenizer = tokenization.FullTokenizer(vocab_file, do_lower_case)  
-  </b></code></pre>
-We next build a custom layer using Keras, integrating BERT from tf-hub.
+2. We are using the Keras Xception model for training our data. Xception model provides us with a method to do some preprocessing
+on the images. The method is `preprocess_input` and the same can be imported using
+`from keras.applications.xception import preprocess_input`
+<pre><code><b>   
+    X_train = preprocess_input(X_train)
+    X_cv = preprocess_input(X_cv)
+    X_test = preprocess_input(X_test)
+ </b></code></pre>
 
-### Encode the text into tokens, masks and segments:
-BERT requires pre-processed inputs. It supports the tokens signature, which assumes pre-processed inputs: input_ids, input_mask, and segment_ids. To achieve this, we encode the data using the tokenizer built in the previous step. 
-The deails of the method <u>bert_encode</u> will be discussed later.
-<pre><code><b>
-    train_input = bert_encode(train_df.clean_text.values, tokenizer, max_len=160)
-    train_labels = train_df.target.values
-  </b></code></pre>
-  
-### Build the model and train it:
-<pre><code><b>
-    model_tweet_BERT = build_model(bert_layer, max_len=160)
-    checkpoint = ModelCheckpoint('model_tweet.h5', monitor='val_loss', save_best_only=True)    
-    bert_history = model_tweet_BERT.fit(
-    train_input, train_labels,
-    validation_split = 0.2,
-    epochs = 4, 
-    callbacks=[checkpoint],
-    batch_size = 32,
-    verbose=2
-    )
-  </b></code></pre>
-  
-### Lets check the layers of our model. We will build the model using KERAS layer on top of the BERT layer.
-This method will build the Model to be trained. This will take the output of the BERT later, send it to the sigmoid activation layer for classification.
- <pre><code><b>
-def build_model(bert_layer, max_len=512):
-    input_word_ids =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_word_ids")
-    input_mask =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="input_mask")
-    segment_ids =  tf.keras.layers.Input(shape=(max_len,), dtype=tf.int32, name="segment_ids")
-    _, sequence_output = bert_layer([input_word_ids, input_mask, segment_ids])
-    clf_output = sequence_output[:, 0, :]
-    x =  tf.keras.layers.Dropout(0.2)(clf_output)
-    out =  tf.keras.layers.Dense(1, activation='sigmoid')(x)    
-    model =  tf.keras.Model(inputs=[input_word_ids, input_mask, segment_ids], outputs=out)
-    model.compile(tf.keras.optimizers.Adam(lr=2e-5), loss='binary_crossentropy', metrics=['accuracy'])    
-    return model
-    </b></code></pre>  
  
-### Lets look into the bert_encode method which we are using to encode the text data for feeding it to the BERT layer.
- The method will encode the 'text' column of train data. The BERT layer needs token, mask and the segment separator.
- We first tokenize the sentence using the tokenizer created from vocab.txt . We add [CLS] to start of sentence and [SEP] to the end of the sentence. Finally, we pad the sentence with 0. As we are dealing with one sentence per example, we set segment_id to be 0 and further we set mask to 1 for all tokens.We set this mask to 0 beyond the number of tokens.
+## Our Model
+Xception model, with weights pre-trained on ImageNet.
+
+-**include_top**: whether to include the fully-connected layer at the top of the network. <br/>
+
+-**input_shape**: The default input size for this model is 299x299. We are using colored images so the `input_shape` is (299,299,3)  `Xception_model=Xception(include_top=False, weights='imagenet',input_shape=(299,299,3),pooling ='avg')`
+
+-**pooling**: 'avg' means that global average pooling will be applied to the output of the last convolutional block, and thus the output of the model will be a 2D tensor.
+ 
+### Model architecture:
+<pre><code><b>
+for layer in Xception_model.layers:
+    layer.trainable = True
+
+out_ = Xception_model.output
+predicted = Dense(2,activation ='softmax')(out_)
+model_face_forensic = Model(inputs= Xception_model.input, outputs = predicted)
+model_face_forensic.compile(loss='categorical_crossentropy',optimizer='adam', metrics=['accuracy'])
+
+checkpoint = ModelCheckpoint('model_face_forensic.h5', monitor='val_loss', save_best_only=True)
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
+history_face_forensic = model_face_forensic.fit(x_train, np.array(y_train),validation_data=(x_cv, np.array(y_cv)),
+                                              callbacks=[checkpoint,tensorboard_callback], batch_size = 32, verbose=2, epochs=12)
+
+</b></code></pre>
+#### Lets save the trained model:
+ `model_face_forensic.save("model_face_forensics.hdf5")`
+ 
+### Plotting the training and validation accuracy helps to understand the model behaviour over different epochs:
+<pre><code><b>
+    def plot_graphs(history, metric):    
+        plt.plot(history.history[metric])    
+        plt.plot(history.history['val_'+metric], '')    
+        plt.xlabel("Epochs")    
+        plt.ylabel(metric)    
+        plt.legend([metric, 'val_'+metric])    
+        plt.show()        
+    plot_graphs(history_face_forensic,'accuracy') 
+    plot_graphs(history_face_forensic,'loss')  
+  </b></code></pre>
+ 
+ ### Lets evaluate our trained model:
+ # evaluate the model
  <pre><code><b>
-def bert_encode(texts, tokenizer, max_len=512):
-    all_tokens = []
-    all_masks = []
-    all_segments = []    
-    for text in texts:
-        text = tokenizer.tokenize(text)
-        text = text[:max_len-2]
-        input_sequence = ["[CLS]"] + text + ["[SEP]"]
-        pad_len = max_len - len(input_sequence)        
-        tokens = tokenizer.convert_tokens_to_ids(input_sequence)
-        tokens += [0] * pad_len
-        pad_masks = [1] * len(input_sequence) + [0] * pad_len
-        segment_ids = [0] * max_len      
-        all_tokens.append(tokens)
-        all_masks.append(pad_masks)
-        all_segments.append(segment_ids)    
-    return np.array(all_tokens), np.array(all_masks), np.array(all_segments)
-    </b></code></pre>
-     
+    scores = model_face_forensic.evaluate(x_test,np.array(y_test),verbose=0)
+    print("%s: %.2f%%" % (model_face_forensic.metrics_names[1], scores[1]*100))
+ </b></code></pre>
+   
 ### Last but not the least, lets not forget the Test data and predict method:
 <pre><code><b>
-    # Encode the text into tokens, masks and segments
-    test_input = bert_encode(test_df.clean_text.values, tokenizer, max_len=160)
-    # Build the model
-    model_tweet_BERT = build_model(bert_layer, max_len=160)    
-    # load weights
-    model_tweet_BERT.load_weights("model_tweet.h5")   
-    y_pred = model_tweet_BERT.predict(test_input)
-  </b></code></pre>
+   #For testing any new video
+   output_file_name = test_full_image_network(video_path='033_097.mp4', num_of_frames=10)
+</b></code></pre>
 
 ## Model performance:
 The model is a binary classification model and we can check the accuracy of the trained model and plot the accuracy and loss graphs to check on the model performance.
