@@ -80,80 +80,29 @@ faces = face_detector(image, 1)
 
 ## EDA (Exploratory Data Analysis)
 
-Let us analyse the data a bit.
-
- 1. <b>Lets check on the 'target', the dependent variable distribution:</b>
+1. <b>Lets view some sample images before processing them:</b>
       <pre><code><b>
-        sns.barplot(target_value_count.index,target_value_count.values,palette="rainbow")
+        plt.figure(figsize=(15,30))
+        for i in range(8):
+             random_value = randint(0,len(filenames_list)-1)
+             sample_image = cv2.imread(os.path.join(dest_path,filenames_list[random_value]))
+             plt.subplot(421+i)
+             plt.title("Sample {} image".format("Fake" if labels[random_value] == 0 else "Real"))
+             plt.imshow(sample_image)
       </b></code></pre>
- ![Target Distribution](../images/target_distribution.png)
+ ![Complete Images](../images/complete_image.png)
   
- 2. <b> Checking for the TOP 'keywords'</b>
+ 2. <b> Lets view few cropped and processed images:</b>
    <pre><code><b>
-      keyword_value_count = train_df["keyword"].value_counts()
-      plt.barh(y=list(keyword_value_count.index)[:10],width=keyword_value_count.values[:10],color= 'rgbkymc')
+      plt.figure(figsize=(15,15))
+      for i in range(8):
+          random_value = randint(0,len(x_train)-1)    
+          plt.subplot(421+i)    
+          plt.title("Sample {} image".format("Fake" if np.argmax(y_train[random_value]) == 0 else "Real"))
+          plt.imshow(x_train[random_value])
    </b></code></pre>
- ![Top Keywords](../images/top_keywords.png)
-   
-3. <b>Distribution of 'keywords' for Real and Fake tweets:</b> 
-The complete code for <i>univariate_barplots</i> is available [here](https://github.com/rashmisom/Tweets-NLP-sentiment)
- <pre><code><b>
-      univariate_barplots(train_df,'keyword','target',1,21) 
- </b></code></pre>
- ![Keyword Distribution](../images/keyword_distribution.png)
- 
-4. <b>Distribution of 'Location' for Real and Fake tweets:</b> 
-<pre><code><b>
-     univariate_barplots(train_df,'location','target',1,41)
-</b></code></pre>
- ![Location Distribution](../images/location_distribution.png)
+ ![Cropped Faces](../images/cropped_faces.png)
   
- 5. <b>Lets see the 'Number of words" in the tweets:</b> 
-<pre><code><b>
-     disaster_word_count = train_df[train_df['target']==1]['text'].str.split().apply(len)
-     disaster_word_count = disaster_word_count.values
-     fake_word_count = train_df[train_df['target']==0]['text'].str.split().apply(len)
-     fake_word_count = fake_word_count.values
-     # the box plot
-     plt.boxplot([disaster_word_count, fake_word_count])
-     # the distribution plot
-     sns.distplot(disaster_word_count, hist=False, label="Real Disaster")
-     sns.distplot(fake_word_count, hist=False, label="Fake Disaster")
-
-</b></code></pre>
- ![Number of words](../images/num_of_words.png)
- <br>
- ![Number of words](../images/num_words_dist.png)
- 
- 6. <b>Number of characters in the tweet text:</b> 
- <pre><code><b>
-     ax1.hist(real_char_len,color='blue')
-     ax2.hist(fake_char_len,color='green')
-</b></code></pre>
- ![Number of Characters](../images/num_of_char.png)
- 
-  7. <b>Average word length in a tweet text:</b> 
- <pre><code><b>
-     sns.distplot(real_disaster_word_count.map(lambda x: np.mean(x)),ax=ax1,color='blue')
-     sns.distplot(fake_disaster_word_count.map(lambda x: np.mean(x)),ax=ax2,color='green')
-</b></code></pre>
- ![Average word length](../images/avg_word_len.png)
- 
-   8. <b>The punctuation marks in the tweets:</b> 
- <pre><code><b>
-     sns.distplot(real_disaster_punctuation_marks,ax=ax1,color='blue')
-     sns.distplot(fake_disaster_punctuation_marks,ax=ax2,color='green')
-</b></code></pre>
- ![Punctuation Marks](../images/punctuation_marks.png)
- 
-   9. <b>Word Cloud for the real and fake disaster tweets:</b> 
- <pre><code><b>
-     tweet_wordcloud(train_df[train_df["target"]==1], title="Train Data Tweets of Real Disaster")
-     tweet_wordcloud(train_df[train_df["target"]==0], title="Train Data Tweets of Fake Disaster")
-</b></code></pre>
- ![Real tweets](../images/wc1.png) <br>
- ![Fake tweets](../images/wc2.png)
- 
 ## Mapping the Business problem to a Machine Learning Problem
 
 ### Prepare data for the model
